@@ -1,0 +1,5 @@
+/client/app/build/
+/client/.gradle/
+/client/local.properties
+/server/node_modules/
+.env
