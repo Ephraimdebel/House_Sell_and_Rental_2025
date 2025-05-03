@@ -1,6 +1,5 @@
 const dbConnection = require("../../config/db");
 
-
 const createReview = async (req, res) => {
     try {
       const { propertyId } = req.params; // Get the propertyId from the URL
