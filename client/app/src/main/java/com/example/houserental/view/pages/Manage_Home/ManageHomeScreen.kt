@@ -140,7 +140,11 @@ fun ManageHomeScreen() {
                     IconButton(onClick = { /* navigate back */ }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+
+                        colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.White // <- white top bar
+                        )
             )
         },
         content = { padding ->
@@ -249,7 +253,6 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                             fontWeight = FontWeight.Bold
                         )
                     }
-
 
                 }
                 Column(

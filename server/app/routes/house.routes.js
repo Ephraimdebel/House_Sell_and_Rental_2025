@@ -9,12 +9,13 @@ const {
   deleteProperty,
   getFavoriteListings,
   addFavorite,
+  getAllListings,
 } = require("../controllers/house.controller");
 
 const authMiddleware = require("../middlewares/auth_middle_ware");
 const upload = require("../../utils/uploads");
 
-// router.get("/house", getAllListings);
+router.get("/house", getAllListings);
 // router.get("/houses", getAllListingsNew);
 router.post("/addHouse",upload.array('photos',3), addHouse);
 router.get("/house/:id", getHouseDetails)
