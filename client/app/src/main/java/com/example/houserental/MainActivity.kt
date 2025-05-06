@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.houserental.ui.theme.HouseRentalTheme
+import com.example.houserental.view.pages.add_property.AddPropertyScreen
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HouseRentalTheme {
-                ManageHomeScreen()
+//                ManageHomeScreen()
+                AddPropertyScreen()
                 }
             }
         }
