@@ -114,13 +114,16 @@ import androidx.compose.ui.layout.ContentScale
 
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.viewModel.ManageHomeViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageHomeScreen() {
+fun ManageHomeScreen(
+    navController: NavController,
+) {
     val repository = remember { HomeRepository(RetrofitInstance.api) }
     val factory = remember { ManageHomeViewModelFactory(repository) }
     val viewModel: ManageHomeViewModel = viewModel(factory = factory)
@@ -140,7 +143,11 @@ fun ManageHomeScreen() {
                     IconButton(onClick = { /* navigate back */ }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+
+                        colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.White // <- white top bar
+                        )
             )
         },
         content = { padding ->
@@ -177,7 +184,9 @@ fun ManageHomeScreen() {
                                         viewModel.deleteHouse(house.id)
                                     }
                                 },
-                                onEdit = { /* Edit functionality */ }
+                                onEdit = { navController.navigate("edit_property/${house.id}") }
+//
+
                             )
                         }
                     }
@@ -249,7 +258,6 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                             fontWeight = FontWeight.Bold
                         )
                     }
-
 
                 }
                 Column(
