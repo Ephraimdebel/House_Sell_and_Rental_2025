@@ -3,9 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const { BASE_URL } = require("../../config/index");
 
 
-
 const dbConnection = require("../../config/db");
-
 
  const addHouse = async (req, res) => {
   console.log("add house step 1",req.body)
@@ -119,14 +117,144 @@ const typeId = typeMap[type] || null;
 
 
 
+const editProperty = async (req, res) => {
+  const listingId = req.params.id;
 
+  try {
+    const {
+      category,
+      type,
+      streetAddress,
+      city,
+      province,
+      country,
+      guestCount,
+      bedroomCount,
+      bathroomCount,
+      title,
+      description,
+      price,
+      area,
+      facilities
+    } = req.body;
+
+    // Map categories and types to IDs
+    const categoryMap = {
+      'House': 1,
+      'Apartment': 2,
+      'Condo': 3,
+      'Townhouse': 4,
+      'Villa': 5
+    };
+
+    const typeMap = {
+      'Sale': 1,
+      'Rent': 2
+    };
+
+    const categoryId = categoryMap[category] || null;
+    const typeId = typeMap[type] || null;
+
+    // Handle updated photo uploads if available
+    let listingPhotoPaths = null;
+    if (req.files && req.files.length > 0) {
+      listingPhotoPaths = req.files.map(file => {
+        const relativePath = file.path.replace(/\\/g, '/');
+        return `${BASE_URL}/${relativePath}`;
+      });
+    }
+
+    // Build the SET part of the query dynamically
+    const fields = [];
+    const values = [];
+
+    if (categoryId) {
+      fields.push('category_id = ?');
+      values.push(categoryId);
+    }
+    if (typeId) {
+      fields.push('type_id = ?');
+      values.push(typeId);
+    }
+    if (streetAddress) {
+      fields.push('streetAddress = ?');
+      values.push(streetAddress);
+    }
+    if (city) {
+      fields.push('city = ?');
+      values.push(city);
+    }
+    if (province) {
+      fields.push('province = ?');
+      values.push(province);
+    }
+    if (country) {
+      fields.push('country = ?');
+      values.push(country);
+    }
+    if (guestCount) {
+      fields.push('guestCount = ?');
+      values.push(guestCount);
+    }
+    if (bedroomCount) {
+      fields.push('bedroomCount = ?');
+      values.push(bedroomCount);
+    }
+    if (bathroomCount) {
+      fields.push('bathroomCount = ?');
+      values.push(bathroomCount);
+    }
+    if (title) {
+      fields.push('title = ?');
+      values.push(title);
+    }
+    if (description) {
+      fields.push('description = ?');
+      values.push(description);
+    }
+    if (price) {
+      fields.push('price = ?');
+      values.push(price);
+    }
+    if (area) {
+      fields.push('area = ?');
+      values.push(area);
+    }
+    if (facilities) {
+      fields.push('facilities = ?');
+      values.push(JSON.stringify(facilities));
+    }
+    if (listingPhotoPaths) {
+      fields.push('listingPhotoPaths = ?');
+      values.push(JSON.stringify(listingPhotoPaths));
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ message: 'No fields to update' });
+    }
+
+    const query = `UPDATE Listings SET ${fields.join(', ')}, updatedAt = CURRENT_TIMESTAMP WHERE id = ?`;
+    values.push(listingId);
+
+    const result = await dbConnection.query(query, values);
+
+    res.status(200).json({
+      message: 'Property updated successfully',
+      updatedListing: result,
+    });
+
+  } catch (err) {
+    console.error('Error in updating listing:', err);
+    res.status(500).json({ message: 'Error updating listing', error: err.message });
+  }
+};
 
 
 const getAllListings= async (req, res) => {
   console.log("Fetching all listings...");
   try {
     // Query to fetch all listings
-    const query = `SELECT * FROM listings`;
+    const query = `SELECT * FROM Listings`;
 
     // Execute the query
     const results = await dbConnection.query(query);
@@ -134,7 +262,7 @@ const getAllListings= async (req, res) => {
     // Return the results
     res.status(200).json({
       message: "All Listingsretrieved successfully",
-      data: results[0], // Use results[0] if using mysql2's promise API
+      data: results, // Use results[0] if using mysql2's promise API
     });
   } catch (err) {
     console.error("Error fetching listings:", err);
@@ -433,4 +561,4 @@ const deleteProperty = async (req, res) => {
 
 
 
-module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings};
+module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings,editProperty};

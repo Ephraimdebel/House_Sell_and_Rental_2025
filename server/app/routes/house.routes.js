@@ -26,6 +26,7 @@ router.get("/housetype", getListingsByType)
 router.post("/addfavourite", addFavorite)
 router.get("/favorite/:userId", getFavoriteListings)
 router.get("/listings", getFilteredHouses)
+router.patch("/listings/:id", getFilteredHouses)
 
 
 module.exports = router;
