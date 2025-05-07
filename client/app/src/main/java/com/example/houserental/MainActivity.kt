@@ -11,6 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.houserental.ui.theme.HouseRentalTheme
+import com.example.houserental.view.AdminDashboardScreen
+import com.example.houserental.view.ManageUsersScreen
+import com.example.houserental.view.ProfileScreen
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 // if you've created this
 import com.example.houserental.navigation.AppNavigation
@@ -18,10 +21,14 @@ import com.example.houserental.navigation.AppNavigation
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             HouseRentalTheme {
                 AppNavigation()
+
             }
+
         }
     }
 }
+
