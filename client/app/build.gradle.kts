@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt") // Ensure KAPT is applied
     id("dagger.hilt.android.plugin") // Hilt Plugin applied
+    id("kotlin-kapt") // Ensure KAPT is applied
+    id("dagger.hilt.android.plugin") // Hilt Plugin applied
 }
 
 android {
@@ -60,6 +62,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.material3)
+    implementation(libs.font.awesome)
+    implementation(libs.ui)
 
     implementation ("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.2.2")

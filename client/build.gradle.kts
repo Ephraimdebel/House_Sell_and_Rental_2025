@@ -6,6 +6,8 @@ plugins {
 
 }
 
+
+
 buildscript {
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.48") // Add this line
