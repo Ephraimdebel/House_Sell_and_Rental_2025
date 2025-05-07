@@ -1,6 +1,7 @@
 package com.example.houserental.data.repository
 
 import com.example.houserental.data.api.ApiService
+import com.example.houserental.data.model.HouseListing
 import com.example.houserental.network.RetrofitInstance
 
 class HomeRepository(private val apiService: ApiService) {
@@ -25,5 +26,10 @@ class HomeRepository(private val apiService: ApiService) {
                Result.failure(e)
            }
        }
+    suspend fun getHousesByType(typeId: Int): List<HouseListing> {
+
+        return apiService.getHousesByType(typeId).data
+    }
+
 
 }

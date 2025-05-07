@@ -194,6 +194,7 @@ async function getAllusers(req, res) {
       "SELECT id, full_name, email,phone_number,role FROM Users"
     );
 
+    
     if (users.length === 0) {
       return res
         .status(StatusCodes.NOT_FOUND)
