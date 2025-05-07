@@ -3,12 +3,18 @@ package com.example.houserental
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+<<<<<<< HEAD
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+=======
+import androidx.activity.enableEdgeToEdge
+>>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe
 import com.example.houserental.ui.theme.HouseRentalTheme
+import com.example.houserental.view.pages.add_property.AddPropertyScreen
+import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 
 
 
@@ -17,8 +23,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             HouseRentalTheme {
+<<<<<<< HEAD
                 RentalApp()
 
+=======
+//                ManageHomeScreen()
+                AddPropertyScreen()
+                }
+>>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe
             }
 
         }
@@ -49,7 +61,11 @@ fun RentalApp() {
                 onLoginClick = { navController.navigate("login") { popUpTo("signup") } }
             )
         }
+<<<<<<< HEAD
     }
 }
 
 
+=======
+    }
+>>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe

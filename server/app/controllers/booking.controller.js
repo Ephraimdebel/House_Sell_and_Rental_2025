@@ -8,7 +8,6 @@ const createBooking = async (req, res) => {
 console.log(host_id ,listing_id)
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     if (new Date(startDate) < today) {
       return res
         .status(400)

@@ -57,6 +57,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+<<<<<<< HEAD
     implementation ("androidx.compose.material:material-icons-extended")
 
 
@@ -68,8 +69,45 @@ dependencies {
 
 
 
+=======
+
+
+    // 🆕 Add manually resolved libraries here
+    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // For Multipart image upload (uses OkHttp)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+// For Kotlin Coroutines (used in ViewModel & Retrofit)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+// For activity result APIs (used for image picking from gallery)
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+// For permissions (optional but helpful)
+    implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
+
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+
+    implementation("androidx.compose.material3:material3:1.2.0")
+
+    implementation("androidx.compose.foundation:foundation:1.5.0")
+
+    implementation("androidx.compose.material3:material3:1.2.1") // or latest
+
+    implementation("androidx.compose.material3:material3:1.1.2")
+>>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe
 
 
 
 
 
+<<<<<<< HEAD
+=======
+}
+>>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe

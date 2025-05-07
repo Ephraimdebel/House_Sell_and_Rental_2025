@@ -8,7 +8,7 @@ const dbConnection = require("../../config/db");
 
 
  const addHouse = async (req, res) => {
-  console.log("step 1")
+  console.log("add house step 1",req.body)
   try {
     const {
       category,
@@ -26,11 +26,29 @@ const dbConnection = require("../../config/db");
       facilities
     } = req.body;
 
+    const categoryMap = {
+      'House': 1,
+      'Apartment': 2,
+      'Condo': 3,
+      'Townhouse': 4,
+      'Villa': 5
+    };
+    
+    const typeMap = {
+      'For Sale': 1,
+      'For Rent': 2
+    };
+
+    const categoryId = categoryMap[category] || null;
+const typeId = typeMap[type] || null;
     const photos = req.files;
     const listingPhotos = photos;
 
+    console.log("body ", req.body)
+    
     // Check if files are uploaded
     if (!listingPhotos || listingPhotos.length === 0) {
+      console.log("no image", )
       return res.status(400).json({ message: 'Please upload property photos' });
     }
 
@@ -41,6 +59,7 @@ const dbConnection = require("../../config/db");
     });
 
     const isAdmin = 1;
+    console.log("photo ", listingPhotos)
 
     const query = `
       INSERT INTO Listings(creator_id, category_id, type_id, streetAddress, city, province, country, guestCount, bedroomCount, bathroomCount, listingPhotoPaths, title, description, price,area,facilities)
@@ -49,8 +68,8 @@ const dbConnection = require("../../config/db");
 
     const values = [
       1, // Creator ID (hardcoded for testing)
-      category,
-      type,
+      categoryId,
+      typeId,
       streetAddress,
       city,
       province,
@@ -65,7 +84,7 @@ const dbConnection = require("../../config/db");
       area,
       JSON.stringify(facilities)
     ];
-    console.log("step 2")
+    console.log("step 2",)
 
     // Execute the insert query
     const result = await dbConnection.query(query, values);
@@ -103,26 +122,25 @@ const dbConnection = require("../../config/db");
 
 
 
+const getAllListings= async (req, res) => {
+  console.log("Fetching all listings...");
+  try {
+    // Query to fetch all listings
+    const query = `SELECT * FROM listings`;
 
-// const getAllListings= async (req, res) => {
-//   console.log("Fetching all listings...");
-//   try {
-//     // Query to fetch all listings
-//     const query = `SELECT * FROM listings`;
+    // Execute the query
+    const results = await dbConnection.query(query);
 
-//     // Execute the query
-//     const results = await dbConnection.query(query);
-
-//     // Return the results
-//     res.status(200).json({
-//       message: "All Listingsretrieved successfully",
-//       data: results[0], // Use results[0] if using mysql2's promise API
-//     });
-//   } catch (err) {
-//     console.error("Error fetching listings:", err);
-//     res.status(500).json({ message: "Error fetching listings", error: err.message });
-//   }
-// };
+    // Return the results
+    res.status(200).json({
+      message: "All Listingsretrieved successfully",
+      data: results[0], // Use results[0] if using mysql2's promise API
+    });
+  } catch (err) {
+    console.error("Error fetching listings:", err);
+    res.status(500).json({ message: "Error fetching listings", error: err.message });
+  }
+};
 
 
 // const getAllListingsNew = async (req, res) => {
@@ -415,4 +433,4 @@ const deleteProperty = async (req, res) => {
 
 
 
-module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite};
+module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings};
