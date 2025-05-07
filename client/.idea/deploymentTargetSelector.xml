@@ -4,27 +4,31 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-<<<<<<< HEAD
+
         <DropdownSelection timestamp="2025-05-07T18:49:16.085747800Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\hp\.android\avd\Medium_Phone.avd" />
-=======
+
         <DropdownSelection timestamp="2025-05-05T13:48:18.590145644Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=R9AR60H72VJ" />
->>>>>>> d764b9e6f90fbdf2a1b09709c1c20d39caee92f5
+
+        <DropdownSelection timestamp="2025-05-07T18:49:16.085747800Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\hp\.android\avd\Medium_Phone.avd" />
+
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
-<<<<<<< HEAD
+
       </SelectionState>
       <SelectionState runConfigName="BottomNavBarPreview">
         <option name="selectionMode" value="DROPDOWN" />
-=======
->>>>>>> d764b9e6f90fbdf2a1b09709c1c20d39caee92f5
+
       </SelectionState>
     </selectionStates>
   </component>

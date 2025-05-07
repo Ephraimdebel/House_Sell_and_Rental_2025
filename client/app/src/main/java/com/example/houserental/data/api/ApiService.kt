@@ -1,5 +1,6 @@
 package com.example.houserental.data.api
 
+
 import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.ListingResponse
 import com.example.houserental.data.model.PropertyResponse
@@ -31,6 +32,7 @@ interface ApiService {
     ): Response<ListingResponse>
     @DELETE("api/house/{id}")
     suspend fun deleteHouse(@Path("id") id: Int): Response<Unit>
+
     @GET("api/users/getAllUsers")
     suspend fun getAllUsers(): Response<UserResponse>
     @DELETE("api/users/user/{id}")
@@ -87,7 +89,8 @@ interface ApiService {
 
 
 
-
+   @POST("users/login")
+    suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
 
 
 
