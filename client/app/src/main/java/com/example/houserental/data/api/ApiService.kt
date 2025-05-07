@@ -1,8 +1,10 @@
 package com.example.houserental.data.api
 
-import LoginRequest
-import LoginResponse
+
+import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.ListingResponse
+import com.example.houserental.data.model.PropertyResponse
+import com.example.houserental.data.model.UpdatePropertyRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.GET
@@ -11,6 +13,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
@@ -60,6 +63,19 @@ interface ApiService {
         @Part("city") city: RequestBody,             // ← ADD
         @Part("province") province: RequestBody      // ← ADD
     ): Response<Unit>
+
+    @GET("api/house/{id}")
+    suspend fun getPropertyById(@Path("id") id: Int): Response<PropertyResponse>
+
+
+    @PATCH("api/properties/{id}")
+    suspend fun updateProperty(
+        @Path("id") id: Int,
+        @Body updatedProperty: UpdatePropertyRequest
+    ): Response<HouseListing>
+
+
+
 
 
 

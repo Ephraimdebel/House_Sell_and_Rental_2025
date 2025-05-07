@@ -1,0 +1,124 @@
+package com.example.houserental.viewModel
+
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import androidx.compose.runtime.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.houserental.data.model.UpdatePropertyRequest
+import com.example.houserental.data.repository.HomeRepository
+
+import com.example.houserental.utils.uriToFile
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import javax.inject.Inject
+
+
+@HiltViewModel
+class EditPropertyViewModel @Inject constructor(
+    private val repository: HomeRepository
+) : ViewModel() {
+
+    var title by mutableStateOf("")
+    var description by mutableStateOf("")
+    var price by mutableStateOf("")
+    var area by mutableStateOf("")
+    var bedroomCount by mutableStateOf("")
+    var bathroomCount by mutableStateOf("")
+    var streetAddress by mutableStateOf("")
+    var city by mutableStateOf("")
+    var state by mutableStateOf("")
+    var propertyType by mutableStateOf("House") // Start with a default value
+    var listingType by mutableStateOf("For Sale") // Start with a default value
+    var zipCode by mutableStateOf("") // Default value as an empty string
+
+    var facilities by mutableStateOf<List<Int>>(emptyList())
+    var photos by mutableStateOf<List<File>>(emptyList())
+
+    var isLoading by mutableStateOf(false)
+    var message by mutableStateOf<String?>(null)
+
+    private var selectedImageUris by mutableStateOf<List<Uri>>(emptyList())
+
+    fun setSelectedImages(uris: List<Uri>) {
+        selectedImageUris = uris
+    }
+
+    fun toggleFacility(id: Int) {
+        facilities = if (facilities.contains(id)) facilities - id else facilities + id
+    }
+
+    // Load existing property data
+    fun loadPropertyById(propertyId: Int, context: Context) {
+        viewModelScope.launch {
+            try {
+                val property = repository.getPropertyById(propertyId)
+
+                title = property.title
+                description = property.description
+                propertyType = property.type_id.toString()             // Already an Int
+                listingType = property.category_id.toString()           // Already an Int
+                price = property.price                        // Already a String
+                bedroomCount = property.bedroomCount.toString()
+                bathroomCount = property.bathroomCount.toString()
+                area = property.area.toString()
+                streetAddress = property.streetAddress
+                city = property.city
+                state = property.province
+                facilities = (property.facilities ?: "") as List<Int>
+                zipCode = ""
+                // Convert image URLs to File (if required for upload later)
+                photos = property.listingPhotoPaths.map { uriToFile(context, Uri.parse(it)) }
+
+            } catch (e: Exception) {
+                Log.e("EditPropertyViewModel", "Failed to load property", e)
+                message = "Failed to load property: ${e.localizedMessage}"
+            }
+        }
+    }
+
+
+    // Update the property on the server
+    fun updateProperty(propertyId: Int) {
+        viewModelScope.launch {
+            try {
+                val request = UpdatePropertyRequest(
+                    category_id = listingType,
+                    type_id = propertyType,
+                    streetAddress = streetAddress,
+                    city = city,
+                    province = state,
+                    bedroomCount = bedroomCount.toIntOrNull() ?: 0,
+                    area = area.toIntOrNull() ?: 0,
+                    bathroomCount = bathroomCount.toIntOrNull() ?: 0,
+                    title = title,
+                    description = description,
+                    facilities = facilities.toString(),
+                    price = price,
+
+                )
+
+                val result = repository.updateProperty(propertyId, request)
+
+                if (result.isSuccess) {
+                    Log.d("EditPropertyViewModel", "Property updated successfully")
+                    message = "Property updated successfully"
+                } else {
+                    message = result.exceptionOrNull()?.localizedMessage ?: "Failed to update property"
+                    Log.e("EditPropertyViewModel", message!!)
+                }
+            } catch (e: Exception) {
+                Log.e("EditPropertyViewModel", "Error: ${e.localizedMessage}")
+                message = "Error: ${e.localizedMessage}"
+            }
+        }
+    }
+
+
+}

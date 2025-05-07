@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id ("kotlin-kapt")
+    id("kotlin-kapt") // Ensure KAPT is applied
+    id("dagger.hilt.android.plugin") // Hilt Plugin applied
 }
 
 android {
@@ -41,7 +42,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -58,6 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.material3)
 
     implementation ("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.2.2")
@@ -70,44 +72,29 @@ dependencies {
     // For Multipart image upload (uses OkHttp)
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
-// For Kotlin Coroutines (used in ViewModel & Retrofit)
+    // For Kotlin Coroutines (used in ViewModel & Retrofit)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-// For activity result APIs (used for image picking from gallery)
+    // For activity result APIs (used for image picking from gallery)
     implementation("androidx.activity:activity-ktx:1.7.2")
 
-// For permissions (optional but helpful)
+    // For permissions (optional but helpful)
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
 
     implementation("androidx.compose.foundation:foundation:1.5.0")
-
     implementation("androidx.compose.material3:material3:1.2.0")
 
-    implementation("androidx.compose.foundation:foundation:1.5.0")
-
-    implementation("androidx.compose.material3:material3:1.2.1") // or latest
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation ("com.google.dagger:hilt-android:2.48")
     implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
-    kapt("com.google.dagger:hilt-compiler:2.48")
 
 
 
-
-
-
-
+    implementation ("androidx.navigation:navigation-compose:2.4.0") // or the latest version
 
 
 }
-
-
-
-
-
-
-
-
-
 

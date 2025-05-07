@@ -114,13 +114,16 @@ import androidx.compose.ui.layout.ContentScale
 
 import androidx.compose.runtime.remember
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.viewModel.ManageHomeViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageHomeScreen() {
+fun ManageHomeScreen(
+    navController: NavController,
+) {
     val repository = remember { HomeRepository(RetrofitInstance.api) }
     val factory = remember { ManageHomeViewModelFactory(repository) }
     val viewModel: ManageHomeViewModel = viewModel(factory = factory)
@@ -181,7 +184,9 @@ fun ManageHomeScreen() {
                                         viewModel.deleteHouse(house.id)
                                     }
                                 },
-                                onEdit = { /* Edit functionality */ }
+                                onEdit = { navController.navigate("edit_property/${house.id}") }
+//
+
                             )
                         }
                     }
