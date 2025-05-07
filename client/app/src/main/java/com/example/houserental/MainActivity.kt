@@ -3,45 +3,53 @@ package com.example.houserental
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHost
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.houserental.ui.theme.HouseRentalTheme
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             HouseRentalTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                RentalApp()
+
             }
+
+        }
+    }
+}
+@Composable
+fun RentalApp() {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = "login"
+    ) {
+        composable("login") {
+            LoginScreen(
+                onBackClick = { /* Handle back press - could finish activity */ },
+                onSignUpClick = { navController.navigate("signup") },
+                onLoginSuccess = {
+                    // Navigate to main app screen after successful login
+                    // navController.navigate("home") { popUpTo("login") }
+                }
+            )
+        }
+
+        composable("signup") {
+            SignUpScreen(
+                onBackClick = { navController.popBackStack() },
+                onLoginClick = { navController.navigate("login") { popUpTo("signup") } }
+            )
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HouseRentalTheme {
-        Greeting("Android")
-    }
-}
