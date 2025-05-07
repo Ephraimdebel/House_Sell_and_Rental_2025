@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt") // Ensure KAPT is applied
     id("dagger.hilt.android.plugin") // Hilt Plugin applied
+    id("kotlin-kapt") // Ensure KAPT is applied
+    id("dagger.hilt.android.plugin") // Hilt Plugin applied
 }
 
 android {
@@ -42,7 +44,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -89,14 +90,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
-    implementation("androidx.compose.material3:material3:1.1.2")
-    implementation ("com.google.dagger:hilt-android:2.48")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
-
-
-
     implementation ("androidx.navigation:navigation-compose:2.4.0") // or the latest version
 
 
 }
-
