@@ -3,7 +3,7 @@ package com.example.houserental.network
 import com.example.houserental.data.api.ApiService
 
 object RetrofitInstance {
-    private const val BASE_URL = "http://10.0.2.2:5500/"
+    private const val BASE_URL = "https://house-rental-backend-4vof.onrender.com/"
 
     val api: ApiService by lazy {
         retrofit2.Retrofit.Builder()

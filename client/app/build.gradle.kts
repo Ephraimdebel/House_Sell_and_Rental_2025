@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id ("kotlin-kapt")
 }
 
 android {
@@ -57,22 +58,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-<<<<<<< HEAD
+
     implementation ("androidx.compose.material:material-icons-extended")
-
-
-
-
-
-
-}
-
-
-
-=======
-
-
-    // 🆕 Add manually resolved libraries here
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.navigation:navigation-compose:2.6.0")
@@ -101,13 +88,26 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.2.1") // or latest
 
     implementation("androidx.compose.material3:material3:1.1.2")
->>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe
+    implementation ("com.google.dagger:hilt-android:2.48")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    kapt("com.google.dagger:hilt-compiler:2.48")
 
 
 
 
 
-<<<<<<< HEAD
-=======
+
+
+
+
 }
->>>>>>> f44af312cbb8836610d22ae537ded3522c539bfe
+
+
+
+
+
+
+
+
+
+

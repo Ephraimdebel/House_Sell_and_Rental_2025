@@ -1,11 +1,14 @@
 package com.example.houserental.data.api
 
+import LoginRequest
+import LoginResponse
 import com.example.houserental.data.model.ListingResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -21,6 +24,8 @@ interface ApiService {
     ): Response<ListingResponse>
     @DELETE("api/house/{id}")
     suspend fun deleteHouse(@Path("id") id: Int): Response<Unit>
+    @POST("users/login")
+    suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
 
 
 //    @Multipart
