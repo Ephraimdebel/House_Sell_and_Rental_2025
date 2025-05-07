@@ -86,7 +86,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
-    implementation ("androidx.navigation:navigation-compose:2.4.0") // or the latest version
+    implementation ("androidx.navigation:navigation-compose:2.4.0")
+    implementation ("androidx.compose.material3:material3:<latest_version>")// or the latest version
 
 
 }

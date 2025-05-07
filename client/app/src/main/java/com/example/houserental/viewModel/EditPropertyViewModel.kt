@@ -38,7 +38,7 @@ class EditPropertyViewModel @Inject constructor(
     var listingType by mutableStateOf("For Sale") // Start with a default value
     var zipCode by mutableStateOf("") // Default value as an empty string
 
-    var facilities by mutableStateOf<List<Int>>(emptyList())
+    var facilities by mutableStateOf("")
     var photos by mutableStateOf<List<File>>(emptyList())
 
     var isLoading by mutableStateOf(false)
@@ -51,8 +51,20 @@ class EditPropertyViewModel @Inject constructor(
     }
 
     fun toggleFacility(id: Int) {
-        facilities = if (facilities.contains(id)) facilities - id else facilities + id
+        val currentFacilities = facilities
+            ?.split(",")
+            ?.mapNotNull { it.toIntOrNull() }
+            ?.toMutableList() ?: mutableListOf()
+
+        if (currentFacilities.contains(id)) {
+            currentFacilities.remove(id)
+        } else {
+            currentFacilities.add(id)
+        }
+
+        facilities = currentFacilities.joinToString(",")
     }
+
 
     // Load existing property data
     fun loadPropertyById(propertyId: Int, context: Context) {
@@ -71,10 +83,13 @@ class EditPropertyViewModel @Inject constructor(
                 streetAddress = property.streetAddress
                 city = property.city
                 state = property.province
-                facilities = (property.facilities ?: "") as List<Int>
+                facilities = property.facilities ?: ""
                 zipCode = ""
                 // Convert image URLs to File (if required for upload later)
-                photos = property.listingPhotoPaths.map { uriToFile(context, Uri.parse(it)) }
+                // ✅ Update this part — store the remote image URIs for display
+                selectedImageUris = property.listingPhotoPaths.map {
+                    Uri.parse(it.replace("http://localhost", "http://10.0.2.2"))
+                }
 
             } catch (e: Exception) {
                 Log.e("EditPropertyViewModel", "Failed to load property", e)
