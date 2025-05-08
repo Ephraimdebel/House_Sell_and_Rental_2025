@@ -6,31 +6,19 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
 import com.example.houserental.network.RetrofitInstance
-import com.example.houserental.viewModel.AddPropertyViewModel
-import com.example.houserental.viewModel.AddPropertyViewModelFactory
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.view.components.LabeledTextField
 import com.example.houserental.view.components.SelectableChips
@@ -98,6 +86,7 @@ fun EditPropertyScreen(
                     .verticalScroll(scrollState)
             ) {
                 SectionHeader("Property Information")
+                Spacer(Modifier.height(16.dp))
                 LabeledTextField(
                     label = "Title",
                     value = viewModel.title,
@@ -107,8 +96,10 @@ fun EditPropertyScreen(
                     label = "Description",
                     value = viewModel.description,
                     isMultiLine = true,
-                    onValueChange = { viewModel.description = it }
+                    onValueChange = { viewModel.description = it },
+                    modifier = Modifier.height(120.dp) // Adjust the height only for the Description field
                 )
+                Spacer(Modifier.height(16.dp))
 
                 Text("Property Type")
                 SelectableChips(
@@ -209,7 +200,11 @@ fun EditPropertyScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     amenities.forEach { (name, id) ->
-                        val selected = id in viewModel.facilities
+                        val selected = viewModel.facilities
+                                ?.split(",")
+                            ?.mapNotNull { it.toIntOrNull() }
+                            ?.contains(id) == true
+
                         FilterChip(
                             selected = selected,
                             onClick = { viewModel.toggleFacility(id) },
@@ -230,11 +225,21 @@ fun EditPropertyScreen(
                 ImagePickerComponent(
                     imageUris = imageUris,
                     onImagesSelected = { uris ->
+                        val updatedUris = uris.map { uri ->
+                            val original = uri.toString()
+                            val updated = original.replace("http://localhost", "http://10.0.2.2")
+                            Log.d("ImageURI_REWRITE", "Original: $original → Updated: $updated")
+                            Uri.parse(updated)
+                        }
+
                         imageUris.clear()
-                        imageUris.addAll(uris)
-                        viewModel.setSelectedImages(uris)
+                        imageUris.addAll(updatedUris)
+
+                        viewModel.setSelectedImages(updatedUris) // ✅ Use updatedUris here
                     }
                 )
+
+
 
                 Spacer(Modifier.height(24.dp))
                 Button(

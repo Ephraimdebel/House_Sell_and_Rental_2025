@@ -6,12 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -20,53 +16,38 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
-import com.example.houserental.R
 //import com.example.houserental.viewModel.AddPropertyViewModel
-import java.io.File
-import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.AssistChip
 //import androidx.compose.material3.ChipDefaults
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.rememberScrollState
 
-import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
+import com.example.houserental.ui.theme.brand
 import com.example.houserental.view.components.LabeledTextField
 import com.example.houserental.view.components.SectionHeader
 import com.example.houserental.view.components.SelectableChips
 import com.example.houserental.viewModel.AddPropertyViewModel
 import com.example.houserental.viewModel.AddPropertyViewModelFactory
 
-import com.example.houserental.view.components.LabeledTextField
-import com.example.houserental.view.components.SelectableChips
 import com.example.houserental.view.components.ImagePickerComponent
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun AddPropertyScreen() {
+fun AddPropertyScreen(navController: NavController,) {
     Log.d("AddPropertyScreen", "Composables starting")
 
     val repository = remember { HomeRepository(RetrofitInstance.api) }
@@ -96,7 +77,7 @@ fun AddPropertyScreen() {
                 title = { Text("Add Property") },
 
                 navigationIcon = {
-                    IconButton(onClick = { /* navigate back */ }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 },
@@ -256,9 +237,13 @@ fun AddPropertyScreen() {
                         viewModel.submitProperty(context)
                         Toast.makeText(context, "Submitting...", Toast.LENGTH_SHORT).show()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = brand,
+                        contentColor = Color.White // for the text
+                    )
                 ) {
-                    Text("Update Property")
+                    Text("Add Property")
                 }
 
                 viewModel.message?.let {

@@ -122,7 +122,9 @@ import com.example.houserental.viewModel.ManageHomeViewModelFactory
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageHomeScreen(
+    onBack: () -> Unit,
     navController: NavController,
+
 ) {
     val repository = remember { HomeRepository(RetrofitInstance.api) }
     val factory = remember { ManageHomeViewModelFactory(repository) }
@@ -140,8 +142,8 @@ fun ManageHomeScreen(
                 title = { Text("Manage Properties") },
 
                 navigationIcon = {
-                    IconButton(onClick = { /* navigate back */ }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
 
