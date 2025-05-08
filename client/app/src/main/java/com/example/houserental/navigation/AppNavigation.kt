@@ -1,55 +1,96 @@
 package com.example.houserental.navigation
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-import com.example.houserental.view.AdminDashboardScreen
-import com.example.houserental.view.ManageUsersScreen
-import com.example.houserental.view.pages.add_property.AddPropertyScreen
-import com.example.houserental.view.pages.add_property.EditPropertyScreen
+import com.example.houserental.view.*
+import com.example.houserental.view.components.BottomNavBar
+import com.example.houserental.view.pages.add_property.*
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
-    NavHost(navController = navController, startDestination = "admin_dashboard") {
-        composable("admin_dashboard") {
-            AdminDashboardScreen(
-                onAddPropertyClick = { navController.navigate("add_property") },
-                onBack = { navController.popBackStack() },
-                navController = navController
-            )
+    // Define which screens should show the BottomNavBar
+    val bottomNavItems = listOf("home", "search", "favorite", "profile")
 
-        }
-
-        composable("add_property") {
-            AddPropertyScreen(navController = navController)
-        }
-
-        composable("manage_property") {
-            ManageHomeScreen(onBack = {navController.popBackStack() } ,navController = navController)
-        }
-
-        composable(
-            "edit_property/{id}",
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val id = backStackEntry.arguments?.getInt("id")
-            if (id != null) {
-                EditPropertyScreen(navController = navController, propertyId = id)
+    Scaffold(
+        bottomBar = {
+            if (currentRoute in bottomNavItems) {
+                BottomNavBar(navController)
             }
         }
-        composable("manage_users") {
-            ManageUsersScreen(
-                navController = navController,
-                onBack = { navController.popBackStack() }
-            )
+    ) { innerPadding ->
+        NavHost(
+            navController = navController,
+            startDestination = "home",
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            // === Root User Pages ===
+            composable("home") {
+                HomeScreen()
+            }
+
+            composable("search") {
+                // TODO: Replace with your actual SearchScreen()
+            }
+
+            composable("favorite") {
+                // TODO: Replace with your actual FavoriteScreen()
+            }
+
+            composable("profile") {
+                ProfileScreen(
+                    onGotoAdminDashboard = {
+                        navController.navigate("admin_dashboard")
+                    }
+                )
+            }
+
+            // === Admin Pages ===
+            composable("admin_dashboard") {
+                AdminDashboardScreen(
+                    onAddPropertyClick = { navController.navigate("add_property") },
+                    onBack = { navController.popBackStack() },
+                    navController = navController
+                )
+            }
+
+            composable("add_property") {
+                AddPropertyScreen(navController = navController)
+            }
+
+            composable("manage_property") {
+                ManageHomeScreen(
+                    onBack = { navController.popBackStack() },
+                    navController = navController
+                )
+            }
+
+            composable("manage_users") {
+                ManageUsersScreen(
+                    navController = navController,
+                    onBack = { navController.popBackStack() }
+                )
+            }
+
+            composable(
+                "edit_property/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("id")
+                if (id != null) {
+                    EditPropertyScreen(navController = navController, propertyId = id)
+                }
+            }
         }
-
-
     }
 }
