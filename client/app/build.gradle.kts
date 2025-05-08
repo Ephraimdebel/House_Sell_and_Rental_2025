@@ -2,8 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+<<<<<<< HEAD
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android") // ✅ Correct Hilt plugin ID
+=======
+    id("kotlin-kapt") // Ensure KAPT is applied
+    id("dagger.hilt.android.plugin") // Hilt Plugin applied
+>>>>>>> 34ef135a72682c8397f4d6d5013d42bb93349782
 }
 
 android {
@@ -45,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,6 +68,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.material3)
+    implementation(libs.font.awesome)
+    implementation(libs.ui)
 
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.2.2")
@@ -77,6 +85,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
+<<<<<<< HEAD
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
@@ -84,10 +93,20 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.7.2")
 
     // Permissions
+=======
+    // For Kotlin Coroutines (used in ViewModel & Retrofit)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // For activity result APIs (used for image picking from gallery)
+    implementation("androidx.activity:activity-ktx:1.7.2")
+
+    // For permissions (optional but helpful)
+>>>>>>> 34ef135a72682c8397f4d6d5013d42bb93349782
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
 
     // Compose Foundation & Material
     implementation("androidx.compose.foundation:foundation:1.5.0")
+<<<<<<< HEAD
 
     // Keep only one version of Material3 to avoid conflicts
     implementation("androidx.compose.material3:material3:1.2.1") // ✅ Latest selected
@@ -97,3 +116,24 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }
+=======
+    implementation("androidx.compose.material3:material3:1.2.0")
+
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation ("com.google.dagger:hilt-android:2.48")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+
+
+    implementation ("androidx.navigation:navigation-compose:2.4.0")
+    implementation ("androidx.compose.material3:material3:<latest_version>")// or the latest version
+    implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
+    implementation("com.google.accompanist:accompanist-flowlayout:0.32.0")
+
+
+}
+
+>>>>>>> 34ef135a72682c8397f4d6d5013d42bb93349782
