@@ -2,11 +2,14 @@ package com.example.houserental.data.repository
 
 import AddPropertyRequest
 import com.example.houserental.data.api.ApiService
+import com.example.houserental.data.model.House
 import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.UpdatePropertyRequest
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.network.RetrofitInstance.api
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -104,6 +107,21 @@ class HomeRepository(private val apiService: ApiService) {
         }
     }
 
+    suspend fun getHouseDetail(id: Int): House? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getHouseDetail(id)
+                if (response.isSuccessful) {
+                    response.body()?.data?.firstOrNull()
+                } else {
+                    null
+                }
+            } catch (e: Exception) {
+                null
+            }
+        }
+    }
+    }
 
 
 
@@ -118,4 +136,4 @@ class HomeRepository(private val apiService: ApiService) {
 
 
 
-}
+
