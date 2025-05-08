@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.houserental.data.repository.UserRepository
 import com.example.houserental.network.RetrofitInstance
@@ -52,7 +53,7 @@ import compose.icons.fontawesomeicons.solid.UserMinus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManageUsersScreen(onBack: () -> Unit) {
+fun ManageUsersScreen(onBack: () -> Unit, navController: NavController) {
     val repository = remember { UserRepository(RetrofitInstance.api) }
     val factory = remember { ManageUsersViewModelFactory(repository) }
     val viewModel: ManageUsersViewModel = viewModel(factory = factory)

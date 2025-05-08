@@ -4,8 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt") // Ensure KAPT is applied
     id("dagger.hilt.android.plugin") // Hilt Plugin applied
-    id("kotlin-kapt") // Ensure KAPT is applied
-    id("dagger.hilt.android.plugin") // Hilt Plugin applied
 }
 
 android {
@@ -99,7 +97,7 @@ dependencies {
 
     implementation ("androidx.navigation:navigation-compose:2.4.0")
     implementation ("androidx.compose.material3:material3:<latest_version>")// or the latest version
-
+    implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
 
 }
 

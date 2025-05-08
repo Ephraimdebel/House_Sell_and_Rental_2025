@@ -17,8 +17,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
+import com.example.houserental.ui.theme.brand
 import com.example.houserental.view.components.DashboardCard
 import com.example.houserental.view.components.ManagementCard
 import com.example.houserental.view.components.ValueCard
@@ -34,7 +36,8 @@ import compose.icons.fontawesomeicons.solid.Home
 @Composable
 fun AdminDashboardScreen(
     onAddPropertyClick: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    navController: NavController
 ) {
     // Create the ApiService instance
     val apiService = RetrofitInstance.api
@@ -112,17 +115,28 @@ fun AdminDashboardScreen(
             Text("Management", fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                ManagementCard("Manage properties", Icons.Default.Home, modifier = Modifier.weight(1f))
-                ManagementCard("Manage users", Icons.Default.Person, modifier = Modifier.weight(1f),
-//                    onIconClick = {
-//                    navController.navigate("ManageUserScreen")} // Use your actual route
+                ManagementCard(
+                    title = "Manage properties",
+                    icon = Icons.Default.Home,
+                    modifier = Modifier.weight(1f),
+                    onClick = { navController.navigate("manage_property") }
+                )
+                ManagementCard(
+                    title = "Manage users",
+                    icon = Icons.Default.Person,
+                    modifier = Modifier.weight(1f),
+                    onClick = { navController.navigate("manage_users") }
                 )
             }
 
             Spacer(Modifier.height(24.dp))
             Button(
                 onClick = onAddPropertyClick,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = brand,
+                    contentColor = Color.White // for the text
+                )
             ) {
                 Text("Add new property")
             }

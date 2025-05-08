@@ -100,12 +100,13 @@ fun ManagementCard(
     title: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
-    onIconClick: (() -> Unit)? = null
+    onClick: (() -> Unit)? = null //
 ) {
     Card(
         modifier = modifier
             .height(120.dp)
-            .padding(4.dp),
+            .padding(4.dp)
+            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier), // Full card clickable
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
@@ -118,11 +119,7 @@ fun ManagementCard(
             Box(
                 modifier = Modifier
                     .size(48.dp)
-                    .background(Color.LightGray, shape = CircleShape)
-                    .then(
-                        if (onIconClick != null) Modifier.clickable { onIconClick() }
-                        else Modifier
-                    ),
+                    .background(Color.LightGray, shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
