@@ -91,10 +91,10 @@ fun AdminDashboardScreen(
             Text("Overview", fontSize = 18.sp, fontWeight = FontWeight.Bold)
 
             // Display total properties from ViewModel
-            DashboardCard("Total properties", propertiesForRent + propertiesForSale,icon = FontAwesomeIcons.Solid.Home)
-            DashboardCard("For Sale", propertiesForSale, color = Color.Red,icon = FontAwesomeIcons.Solid.DollarSign)
-            DashboardCard("For Rent", propertiesForRent,icon = FontAwesomeIcons.Solid.Home)
-            DashboardCard("Featured", 2, color = Color.Green,icon = FontAwesomeIcons.Solid.ChartLine)
+            DashboardCard("Total properties", propertiesForRent + propertiesForSale, icon = FontAwesomeIcons.Solid.Home)
+            DashboardCard("For Sale", propertiesForSale, color = Color.Red, icon = FontAwesomeIcons.Solid.DollarSign)
+            DashboardCard("For Rent", propertiesForRent, icon = FontAwesomeIcons.Solid.Home)
+            DashboardCard("Featured", 2, color = Color.Green, icon = FontAwesomeIcons.Solid.ChartLine)
 
             Spacer(Modifier.height(24.dp))
             Text("Property value", fontSize = 18.sp, fontWeight = FontWeight.Bold)
@@ -104,11 +104,10 @@ fun AdminDashboardScreen(
             ) {
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth()) {
-                    ValueCard("Total sale value", "ETB ${totalSaleValue.toInt()}",modifier = Modifier.weight(1f))
+                    ValueCard("Total sale value", "ETB ${totalSaleValue.toInt()}", modifier = Modifier.weight(1f))
                     ValueCard("Monthly Rental Income",
                         "ETB ${monthlyRentalIncome.toInt()}/mo", modifier = Modifier.weight(1f))
                 }
-
             }
 
             Spacer(Modifier.height(24.dp))
@@ -140,7 +139,23 @@ fun AdminDashboardScreen(
             ) {
                 Text("Add new property")
             }
+
+            Spacer(Modifier.height(16.dp))
+
+            // Added button to navigate to Property Detail Screen
+            Button(
+                onClick = {
+                    // Navigate to PropertyDetailScreen with a sample houseId (e.g., 1)
+                    navController.navigate("property_detail/1")
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF5D9DF0),
+                    contentColor = Color.White
+                )
+            ) {
+                Text("Go to Property Detail")
+            }
         }
     }
 }
-

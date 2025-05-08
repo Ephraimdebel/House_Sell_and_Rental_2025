@@ -98,6 +98,8 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:2.4.0")
     implementation ("androidx.compose.material3:material3:<latest_version>")// or the latest version
     implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
+    implementation("com.google.accompanist:accompanist-flowlayout:0.32.0")
+
 
 }
 

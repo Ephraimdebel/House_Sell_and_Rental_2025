@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.houserental.ui.pages.home_detail.PropertyDetailScreen
 import com.example.houserental.view.AdminDashboardScreen
 import com.example.houserental.view.ManageUsersScreen
 import com.example.houserental.view.pages.add_property.AddPropertyScreen
@@ -23,7 +24,6 @@ fun AppNavigation() {
                 onBack = { navController.popBackStack() },
                 navController = navController
             )
-
         }
 
         composable("add_property") {
@@ -31,7 +31,10 @@ fun AppNavigation() {
         }
 
         composable("manage_property") {
-            ManageHomeScreen(onBack = {navController.popBackStack() } ,navController = navController)
+            ManageHomeScreen(
+                onBack = { navController.popBackStack() },
+                navController = navController
+            )
         }
 
         composable(
@@ -43,6 +46,7 @@ fun AppNavigation() {
                 EditPropertyScreen(navController = navController, propertyId = id)
             }
         }
+
         composable("manage_users") {
             ManageUsersScreen(
                 navController = navController,
@@ -50,6 +54,13 @@ fun AppNavigation() {
             )
         }
 
-
+        // Property Detail Screen route added here
+        composable(
+            "property_detail/{houseId}",
+            arguments = listOf(navArgument("houseId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val houseId = backStackEntry.arguments?.getInt("houseId") ?: 0
+            PropertyDetailScreen(houseId = houseId, navController = navController)
+        }
     }
 }
