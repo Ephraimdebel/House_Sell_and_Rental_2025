@@ -36,10 +36,10 @@ fun BottomNavBar(navController: NavController? = null) {
         "profile" to Icons.Outlined.Person
     )
 
-    Box() {
+    Box(modifier = Modifier.height(70.dp)) {
         NavigationBar(
             containerColor = Color.White,
-            modifier = Modifier.height(56.dp)
+            modifier = Modifier.height(66.dp)
         ) {
             navItems.forEachIndexed { index, (screen, icon) ->
                 if (index == 2) {
@@ -82,6 +82,7 @@ fun BottomNavBar(navController: NavController? = null) {
         }
     }
 }
+
 
 
 @Preview(showBackground = true)
