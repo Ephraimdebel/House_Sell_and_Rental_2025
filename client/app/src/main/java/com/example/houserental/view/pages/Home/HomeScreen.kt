@@ -19,21 +19,31 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.example.houserental.data.repository.HomeRepository
+import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.viewModel.HomeViewModel
+import com.example.houserental.viewModel.HomeViewModelFactory
 import com.example.houserental.viewModel.ManageHomeViewModel
+import com.example.houserental.viewModel.ManageHomeViewModelFactory
 
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
-    val listings = viewModel.listings
+fun HomeScreen() {
+    val repository = remember { HomeRepository(RetrofitInstance.api) }
+    val factory = remember { HomeViewModelFactory(repository) }
+    val viewModel: HomeViewModel = viewModel(factory = factory)
 
+    val listings = viewModel.listings
     LaunchedEffect(Unit) {
         viewModel.getHomes()
     }
@@ -116,6 +126,7 @@ fun PropertyCard(
     house: com.example.houserental.data.model.HouseListing,
     isHorizontal: Boolean
 ) {
+
     Card(
         shape = RoundedCornerShape(12.dp),
         modifier = if (isHorizontal)
@@ -187,5 +198,5 @@ fun IconText(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String
     }
 }
 fun formatImageUrl(originalUrl: String): String {
-    return originalUrl.replace("http://localhost:5500", "https://house-rental-backend-4vof.onrender.com")
+    return originalUrl.replace("http://localhost:5500", "https://10.0.2.2:5500")
 }

@@ -40,7 +40,7 @@ import com.example.houserental.viewModel.ProfileViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(paddingValues: PaddingValues) {
+fun ProfileScreen( onGotoAdminDashboard: () -> Unit,) {
     val user = viewModel<ProfileViewModel>()
 
     val accountItems = listOf(
@@ -74,7 +74,8 @@ fun ProfileScreen(paddingValues: PaddingValues) {
                 ),
             )
         },
-        modifier = Modifier.padding(paddingValues)
+        //Ephraim modifiy this
+        modifier = Modifier.padding(5.dp)
     ) { innerPadding ->
         val scrollState = rememberScrollState()
 
@@ -133,7 +134,7 @@ fun ProfileScreen(paddingValues: PaddingValues) {
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Button(
-                                onClick = { /* Handle Login */ },
+                                onClick =  onGotoAdminDashboard,
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4D91FF)),
                                 shape = RoundedCornerShape(50)
                             ) {
