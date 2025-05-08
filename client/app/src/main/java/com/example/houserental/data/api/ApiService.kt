@@ -3,6 +3,8 @@ package com.example.houserental.data.api
 
 import LoginRequest
 import LoginResponse
+import RegisterRequest
+import RegisterResponse
 import com.example.houserental.data.model.HouseDetailResponse
 import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.ListingResponse
@@ -40,8 +42,13 @@ interface ApiService {
 
     @GET("api/housetype")
     suspend fun getHousesByType(@Query("type_id") typeId: Int): ListingResponse
-    @POST("users/login")
+    @POST("api/users/login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
+    @POST("api/users/register")
+    suspend fun registerUser(
+        @Body user: RegisterRequest
+    ): RegisterResponse
+
     @GET("house/{id}")
     suspend fun getHouseDetail(@Path("id") id: Int): Response<HouseDetailResponse>
 

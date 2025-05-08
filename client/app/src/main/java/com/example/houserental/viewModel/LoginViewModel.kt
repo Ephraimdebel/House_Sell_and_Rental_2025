@@ -1,17 +1,23 @@
 package com.example.houserental.viewModel
 
-import AuthRepository
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.houserental.data.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
+class LoginViewModel( // ✅ Hilt injection
+    private val repository: AuthRepository
+) : ViewModel() {
 
     var isLoading by mutableStateOf(false)
         private set
+
     var errorMessage by mutableStateOf<String?>(null)
     var loginSuccess by mutableStateOf(false)
     var token by mutableStateOf("")
@@ -29,6 +35,7 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
                 token = it.token
                 loginSuccess = true
             }.onFailure {
+                Log.d("hello","${it.message}")
                 errorMessage = it.message
             }
         }
