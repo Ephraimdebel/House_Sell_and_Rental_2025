@@ -2,6 +2,8 @@ package com.example.houserental.data.api
 
 import LoginRequest
 import LoginResponse
+import RegisterRequest
+import RegisterResponse
 import com.example.houserental.data.model.ListingResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -24,8 +26,13 @@ interface ApiService {
     ): Response<ListingResponse>
     @DELETE("api/house/{id}")
     suspend fun deleteHouse(@Path("id") id: Int): Response<Unit>
-    @POST("users/login")
+    @POST("api/users/login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
+    @POST("api/users/register")
+    suspend fun registerUser(
+        @Body user: RegisterRequest
+    ): RegisterResponse
+
 
 
 //    @Multipart
