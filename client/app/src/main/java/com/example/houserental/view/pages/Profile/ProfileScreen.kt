@@ -34,13 +34,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.houserental.view.components.ProfileSection
 import com.example.houserental.viewModel.ProfileViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen( onGotoAdminDashboard: () -> Unit,) {
+fun ProfileScreen(onGotoAdminDashboard: () -> Unit, navController: NavController,) {
     val user = viewModel<ProfileViewModel>()
 
     val accountItems = listOf(
@@ -133,8 +135,9 @@ fun ProfileScreen( onGotoAdminDashboard: () -> Unit,) {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
+
                             Button(
-                                onClick =  onGotoAdminDashboard,
+                                onClick = { navController.navigate("login") },
                                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4D91FF)),
                                 shape = RoundedCornerShape(50)
                             ) {
@@ -142,7 +145,7 @@ fun ProfileScreen( onGotoAdminDashboard: () -> Unit,) {
                             }
 
                             OutlinedButton(
-                                onClick = { /* Handle Sign Up */ },
+                                onClick = { navController.navigate("signup") },
                                 shape = RoundedCornerShape(50),
                                 border = BorderStroke(1.dp, Color(0xFF4D91FF))
                             ) {

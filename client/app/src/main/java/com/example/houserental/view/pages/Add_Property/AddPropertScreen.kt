@@ -36,7 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
-import com.example.houserental.ui.theme.brand
+import com.example.houserental.ui.theme.BrandColor
 import com.example.houserental.view.components.LabeledTextField
 import com.example.houserental.view.components.SectionHeader
 import com.example.houserental.view.components.SelectableChips
@@ -200,8 +200,8 @@ fun AddPropertyScreen(navController: NavController,) {
                 )
                 FlowRow(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     amenities.forEach { (name, id) ->
                         val selected = id in viewModel.facilities
@@ -210,10 +210,16 @@ fun AddPropertyScreen(navController: NavController,) {
                             onClick = { viewModel.toggleFacility(id) },
                             label = { Text(name) },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = Color(0xFF90CAF9),
-                                containerColor = Color.LightGray,
+                                selectedContainerColor = BrandColor,
+                                containerColor = Color.White,
                                 labelColor = Color.Black,
                                 selectedLabelColor = Color.White
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                borderColor = Color.LightGray,
+                                selectedBorderColor = Color.LightGray,
+                                enabled = true,
+                                selected = selected
                             )
                         )
                     }
@@ -236,10 +242,13 @@ fun AddPropertyScreen(navController: NavController,) {
                     onClick = {
                         viewModel.submitProperty(context)
                         Toast.makeText(context, "Submitting...", Toast.LENGTH_SHORT).show()
+                        navController.navigate("manage_property") {
+                            popUpTo("add_property") { inclusive = true } // Optional: remove 'add_property' from back stack
+                        }
                     },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = brand,
+                        containerColor = BrandColor,
                         contentColor = Color.White // for the text
                     )
                 ) {

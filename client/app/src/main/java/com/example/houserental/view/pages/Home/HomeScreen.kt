@@ -8,6 +8,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bathtub
@@ -28,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
@@ -60,24 +62,26 @@ fun HomeScreen() {
         SectionHeader("Featured Properties") {
             viewModel.getHomes()
         }
-        HorizontalListingSection(listings, navController)
+        HorizontalListingSection(listings)
 
         SectionHeader("For Sale") {
             viewModel.getHomes()
         }
-        VerticalListingSection(listings, navController)
+        VerticalListingSection(listings)
 
         SectionHeader("For Rent") {
             viewModel.getHomes()
         }
-        VerticalListingSection(listings, navController)
+        VerticalListingSection(listings)
     }
 }
+
 
 @Composable
 fun SectionHeader(title: String, onViewAllClick: () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -86,14 +90,15 @@ fun SectionHeader(title: String, onViewAllClick: () -> Unit) {
             "View All",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.clickable { onViewAllClick() }
+            modifier = Modifier.clickable{ onViewAllClick() }
         )
     }
     Spacer(modifier = Modifier.height(8.dp))
 }
 
+
 @Composable
-fun HorizontalListingSection(houses: List<HouseListing>, navController: NavController) {
+fun HorizontalListingSection(houses: List<com.example.houserental.data.model.HouseListing>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -101,17 +106,17 @@ fun HorizontalListingSection(houses: List<HouseListing>, navController: NavContr
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         houses.forEach { house ->
-            PropertyCard(house, isHorizontal = true, navController)
+            PropertyCard(house, isHorizontal = true)
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-fun VerticalListingSection(houses: List<HouseListing>, navController: NavController) {
+fun VerticalListingSection(houses: List<com.example.houserental.data.model.HouseListing>) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         houses.forEach { house ->
-            PropertyCard(house, isHorizontal = false, navController)
+            PropertyCard(house, isHorizontal = false)
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
@@ -119,33 +124,44 @@ fun VerticalListingSection(houses: List<HouseListing>, navController: NavControl
 
 @Composable
 fun PropertyCard(
-    house: HouseListing,
-    isHorizontal: Boolean,
-    navController: NavController
+    house: com.example.houserental.data.model.HouseListing,
+    isHorizontal: Boolean
 ) {
 
     Card(
         shape = RoundedCornerShape(12.dp),
-        modifier = (if (isHorizontal) Modifier.width(250.dp) else Modifier.fillMaxWidth())
-            .clickable {
-                navController.navigate("property_detail/${house.id}")
-            },
+        modifier = if (isHorizontal)
+            Modifier.width(250.dp)
+        else
+            Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column {
-            val imageUrl = house.listingPhotoPaths.firstOrNull()
-            val newImage = formatImageUrl(imageUrl ?: "")
-            Log.d("image url", "$newImage")
-
+//            val imageUrl = house.listingPhotoPaths.firstOrNull()
+//            val newImage = formatImageUrl(imageUrl.toString().toStringng())
+//            Log.d("image url","$newImage")
+            // Wrap image and icon inside a Box
             Box {
-                Image(
-                    painter = rememberAsyncImagePainter(newImage),
-                    contentDescription = house.title,
-                    contentScale = ContentScale.Crop,
+//                Image(
+//                    painter = rememberAsyncImagePainter(newImage),
+//                    contentDescription = house.title,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .height(160.dp)
+//                        .fillMaxWidth()
+//                )
+                if (house.listingPhotoPaths.isNotEmpty()) {
+                val imageUrl = house.listingPhotoPaths.first().replace("localhost", "10.0.2.2")
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = null,
                     modifier = Modifier
-                        .height(160.dp)
                         .fillMaxWidth()
+                        .height(180.dp),
+                    contentScale = ContentScale.Crop
                 )
+
+            }
 
                 IconButton(
                     onClick = { /* TODO: handle favorite toggle */ },
@@ -180,6 +196,7 @@ fun PropertyCard(
     }
 }
 
+
 @Composable
 fun IconText(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -193,7 +210,6 @@ fun IconText(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String
         Text(text, fontSize = 12.sp, color = Color.Gray)
     }
 }
-
 fun formatImageUrl(originalUrl: String): String {
     return originalUrl.replace("http://localhost:5500", "https://10.0.2.2:5500")
 }

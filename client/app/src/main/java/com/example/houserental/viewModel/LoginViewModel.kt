@@ -7,11 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.houserental.data.repository.AuthRepository
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class LoginViewModel( // ✅ Hilt injection
+class LoginViewModel(
     private val repository: AuthRepository
 ) : ViewModel() {
 
@@ -35,7 +33,7 @@ class LoginViewModel( // ✅ Hilt injection
                 token = it.token
                 loginSuccess = true
             }.onFailure {
-                Log.d("hello","${it.message}")
+                Log.d("LoginError", "${it.message}")
                 errorMessage = it.message
             }
         }
