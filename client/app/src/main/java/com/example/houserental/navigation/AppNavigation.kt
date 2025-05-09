@@ -1,5 +1,6 @@
 package com.example.houserental.navigation
 
+import com.example.houserental.view.pages.Search.SearchPage
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -9,13 +10,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+<<<<<<< HEAD
+=======
 import com.example.houserental.LoginScreen
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 import com.example.houserental.view.*
 import com.example.houserental.view.components.BottomNavBar
 import com.example.houserental.view.pages.add_property.*
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 import com.example.houserental.ui.pages.home_detail.PropertyDetailScreen
+<<<<<<< HEAD
+=======
 import com.example.onlytry.SignUpScreen
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 
 @Composable
 fun AppNavigation() {
@@ -40,11 +47,11 @@ fun AppNavigation() {
         ) {
             // === Root User Pages ===
             composable("home") {
-                HomeScreen()
+                HomeScreen(navController = navController)
             }
 
             composable("search") {
-                // TODO: Replace with your actual SearchScreen()
+                SearchPage(navController = navController) // Navigating to SearchPage
             }
 
             composable("favorite") {
@@ -130,7 +137,10 @@ fun AppNavigation() {
                     )
                 }
             }
+<<<<<<< HEAD
+=======
 
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
         }
     }
 }

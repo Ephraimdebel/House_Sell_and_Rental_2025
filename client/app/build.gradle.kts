@@ -45,7 +45,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -53,7 +52,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material3)  // Make sure only this is included
     implementation(libs.androidx.navigation.runtime.android)
 
     testImplementation(libs.junit)
@@ -63,9 +62,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.material3)
-    implementation(libs.font.awesome)
-    implementation(libs.ui)
 
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.2.2")
@@ -93,23 +89,17 @@ dependencies {
 
     // Compose Foundation & Material
     implementation("androidx.compose.foundation:foundation:1.5.0")
+<<<<<<< HEAD
+    implementation("androidx.compose.material3:material3:1.2.0") // Keep this only
+=======
 
     implementation("androidx.compose.material3:material3:1.2.0")
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
-    implementation("androidx.compose.material3:material3:1.1.2")
-    implementation ("com.google.dagger:hilt-android:2.48")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
-
-
-
-    implementation ("androidx.navigation:navigation-compose:2.4.0")
-    implementation ("androidx.compose.material3:material3:<latest_version>")// or the latest version
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
     implementation("com.google.accompanist:accompanist-flowlayout:0.32.0")
-
-
 }
-
