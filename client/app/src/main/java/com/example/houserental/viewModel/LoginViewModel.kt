@@ -18,6 +18,8 @@ class LoginViewModel(
 
     var errorMessage by mutableStateOf<String?>(null)
     var loginSuccess by mutableStateOf(false)
+        private set
+
     var token by mutableStateOf("")
         private set
 
@@ -25,10 +27,11 @@ class LoginViewModel(
         viewModelScope.launch {
             isLoading = true
             errorMessage = null
+            loginSuccess = false // reset
 
             val result = repository.login(email, password)
-            isLoading = false
 
+            isLoading = false
             result.onSuccess {
                 token = it.token
                 loginSuccess = true
@@ -38,4 +41,9 @@ class LoginViewModel(
             }
         }
     }
+
+    fun resetLoginSuccess() {
+        loginSuccess = false
+    }
 }
+

@@ -38,9 +38,11 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    LaunchedEffect(viewModel.loginSuccess) {
-        if (viewModel.loginSuccess) {
+    // Trigger navigation and reset flag
+    if (viewModel.loginSuccess) {
+        LaunchedEffect(Unit) {
             onLoginSuccess()
+            viewModel.resetLoginSuccess()
         }
     }
 
@@ -75,23 +77,12 @@ fun LoginScreen(
         ) {
             Spacer(modifier = Modifier.height(24.dp))
 
-            Text(
-                text = "Welcome Back",
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold
-            )
-
+            Text("Welcome Back", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Sign in to your account",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Subtext
-            )
-
+            Text("Sign in to your account", style = MaterialTheme.typography.bodyMedium, color = Subtext)
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Email Field
+            // Email Input
             Text("Email", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
@@ -116,7 +107,7 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            // Password Field
+            // Password Input
             Text("Password", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(4.dp))
             OutlinedTextField(
@@ -149,12 +140,12 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Error message
+            // Error Message
             viewModel.errorMessage?.let {
                 Text(text = it, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
             }
 
-            // Loading indicator
+            // Loading Spinner
             if (viewModel.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
@@ -164,6 +155,7 @@ fun LoginScreen(
             // Login Button
             Button(
                 onClick = { viewModel.login(email, password) },
+                enabled = !viewModel.isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),
@@ -176,20 +168,9 @@ fun LoginScreen(
                 Text("Login", style = MaterialTheme.typography.labelLarge)
             }
 
-            // Success message
-            if (viewModel.loginSuccess) {
-                Text(
-                    text = "Successfully logged in",
-                    color = Color.Green,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 8.dp)
-                )
-            }
-
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Signup option
+            // Sign Up Option
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
@@ -203,3 +184,4 @@ fun LoginScreen(
         }
     }
 }
+
