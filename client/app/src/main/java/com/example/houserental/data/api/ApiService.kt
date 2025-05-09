@@ -4,12 +4,9 @@ package com.example.houserental.data.api
 import FavoriteResponse
 import LoginRequest
 import LoginResponse
-<<<<<<< HEAD
 //import com.example.houserental.data.model.FavoriteResponse
-=======
 import RegisterRequest
 import RegisterResponse
->>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 import com.example.houserental.data.model.HouseDetailResponse
 import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.ListingResponse
@@ -49,16 +46,13 @@ interface ApiService {
     suspend fun getHousesByType(@Query("type_id") typeId: Int): ListingResponse
     @POST("api/users/login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
-<<<<<<< HEAD
-    @GET("api/house/{id}")
-=======
+   
     @POST("api/users/register")
     suspend fun registerUser(
         @Body user: RegisterRequest
     ): RegisterResponse
 
     @GET("house/{id}")
->>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
     suspend fun getHouseDetail(@Path("id") id: Int): Response<HouseDetailResponse>
 
 

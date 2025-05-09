@@ -89,12 +89,7 @@ dependencies {
 
     // Compose Foundation & Material
     implementation("androidx.compose.foundation:foundation:1.5.0")
-<<<<<<< HEAD
     implementation("androidx.compose.material3:material3:1.2.0") // Keep this only
-=======
-
-    implementation("androidx.compose.material3:material3:1.2.0")
->>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
