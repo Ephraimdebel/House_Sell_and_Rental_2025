@@ -70,33 +70,42 @@ class EditPropertyViewModel @Inject constructor(
     fun loadPropertyById(propertyId: Int, context: Context) {
         viewModelScope.launch {
             try {
-                val property = repository.getPropertyById(propertyId)
+                val result = repository.getPropertyById(propertyId)
+                if (result.isSuccess) {
+                    val propertyResponse = result.getOrNull()
+                    val property = propertyResponse // Get the first HouseListing
 
-                title = property.title
-                description = property.description
-                propertyType = property.type_id.toString()             // Already an Int
-                listingType = property.category_id.toString()           // Already an Int
-                price = property.price                        // Already a String
-                bedroomCount = property.bedroomCount.toString()
-                bathroomCount = property.bathroomCount.toString()
-                area = property.area.toString()
-                streetAddress = property.streetAddress
-                city = property.city
-                state = property.province
-                facilities = property.facilities ?: ""
-                zipCode = ""
-                // Convert image URLs to File (if required for upload later)
-                // ✅ Update this part — store the remote image URIs for display
-                selectedImageUris = property.listingPhotoPaths.map {
-                    Uri.parse(it.replace("http://localhost", "http://10.0.2.2"))
+                    if (property != null) {
+                        title = property.title
+                        description = property.description
+                        propertyType = property.type_id.toString()
+                        listingType = property.category_id.toString()
+                        price = property.price
+                        bedroomCount = property.bedroomCount.toString()
+                        bathroomCount = property.bathroomCount.toString()
+                        area = property.area.toString()
+                        streetAddress = property.streetAddress
+                        city = property.city
+                        state = property.province
+                        facilities = property.facilities ?: ""
+                        zipCode = ""
+
+                        selectedImageUris = property.listingPhotoPaths.map {
+                            Uri.parse(it.replace("http://localhost", "http://10.0.2.2"))
+                        }
+                    } else {
+                        message = "Property not found"
+                    }
+                } else {
+                    message = "Failed to load property: ${result.exceptionOrNull()?.localizedMessage}"
                 }
-
             } catch (e: Exception) {
-                Log.e("EditPropertyViewModel", "Failed to load property", e)
-                message = "Failed to load property: ${e.localizedMessage}"
+                Log.e("EditPropertyViewModel", "Error loading property", e)
+                message = "Error loading property: ${e.localizedMessage}"
             }
         }
     }
+
 
 
     // Update the property on the server

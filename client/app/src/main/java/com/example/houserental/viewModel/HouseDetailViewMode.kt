@@ -1,9 +1,12 @@
 package com.example.houserental.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.data.model.House
+import com.example.houserental.data.model.HouseListing
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -34,28 +37,17 @@ class HouseDetailViewModel(
             _error.value = null
 
             try {
-                // Fetch the house details from the repository
-                val result = repository.getHouseDetail(id)
+                val result = repository.getPropertyById(id)
 
-                // Set the house details if available
-                _house.value = result
-
-                // Parse the amenities (facilities) if they exist
-                result?.facilities?.let {
-                    try {
-                        val jsonArray = JSONArray(it) // Parse stringified JSON array
-                        val list = mutableListOf<Int>()
-                        for (i in 0 until jsonArray.length()) {
-                            list.add(jsonArray.getInt(i))
-                        }
-                        amenities.value = list // Store parsed amenities list
-                    } catch (e: Exception) {
-                        e.printStackTrace() // Handle parse errors gracefully
-                    }
+                if (result.isSuccess) {
+                    val house = result.getOrNull()
+                    _house.value = house // Assign directly to _house
+                    // Handle amenities if necessary, or fetch amenities here if needed
+                } else {
+                    _error.value = "Error: ${result.exceptionOrNull()?.localizedMessage}"
                 }
 
             } catch (e: Exception) {
-                // Handle any network or repository errors
                 _error.value = "Error fetching house details"
                 e.printStackTrace()
             } finally {

@@ -90,7 +90,7 @@ interface ApiService {
     ): Response<Unit>
 
     @GET("api/house/{id}")
-    suspend fun getPropertyById(@Path("id") id: Int): Response<PropertyResponse>
+    suspend fun getPropertyById(@Path("id") id: Int): Response<HouseDetailResponse>
 
 
     @PATCH("api/properties/{id}")
