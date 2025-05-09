@@ -67,9 +67,9 @@ fun HomeScreen(navController: NavController) {
         SectionHeader("For Sale") {
             viewModel.getHomes()
         }
-        V @GET("api/house/{id}")erticalListingSection(listings) { id ->
-            navController.navigate("property_detail/$id")
-        }
+//        @GET("api/house/{id}")erticalListingSection(listings) { id ->
+//            navController.navigate("property_detail/$id")
+//        }
 
         SectionHeader("For Rent") {
             viewModel.getHomes()

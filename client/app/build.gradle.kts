@@ -97,4 +97,8 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("br.com.devsrsouza.compose.icons:font-awesome:1.1.0")
     implementation("com.google.accompanist:accompanist-flowlayout:0.32.0")
+
+    implementation( "androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
+    // Ensure you have the Compose dependencies as well
+    implementation( "androidx.compose.runtime:runtime-livedata:1.4.0")
 }
