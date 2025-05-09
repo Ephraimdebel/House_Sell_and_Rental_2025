@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.houserental.ui.theme.BrandColor
+
 
 @Composable
 fun SelectableChips(
@@ -20,11 +22,23 @@ fun SelectableChips(
             FilterChip(
                 selected = selected == option,
                 onClick = { onSelected(option) },
+                enabled = true, // or false, depending on your case
                 colors = FilterChipDefaults.filterChipColors(
-                    selectedContainerColor = Color(0xFF90CAF9)
+                    selectedContainerColor = BrandColor,
+                    containerColor = Color.White,
+                    labelColor = Color.Black,
+                    selectedLabelColor = Color.White
+                ),
+                border = FilterChipDefaults.filterChipBorder(
+                    borderColor = Color.LightGray,
+                    selectedBorderColor = Color.LightGray,
+                    enabled = true,
+                    selected = selected == option
                 ),
                 label = { Text(option) }
             )
+
+
         }
     }
 }
