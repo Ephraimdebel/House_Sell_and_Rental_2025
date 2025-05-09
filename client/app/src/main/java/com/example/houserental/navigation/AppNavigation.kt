@@ -1,5 +1,6 @@
 package com.example.houserental.navigation
 
+import com.example.houserental.view.pages.Search.SearchPage
 import SignUpViewModel
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -47,11 +48,11 @@ fun AppNavigation() {
         ) {
             // === Root User Pages ===
             composable("home") {
-                HomeScreen()
+                HomeScreen(navController = navController)
             }
 
             composable("search") {
-                // TODO: Replace with your actual SearchScreen()
+                SearchPage(navController = navController) // Navigating to SearchPage
             }
 
             composable("favorite") {
@@ -156,7 +157,6 @@ fun AppNavigation() {
                     )
                 }
             }
-
         }
     }
 }

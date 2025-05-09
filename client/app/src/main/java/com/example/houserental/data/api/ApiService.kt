@@ -1,8 +1,10 @@
 package com.example.houserental.data.api
 
 
+import FavoriteResponse
 import LoginRequest
 import LoginResponse
+//import com.example.houserental.data.model.FavoriteResponse
 import RegisterRequest
 import RegisterResponse
 import com.example.houserental.data.model.HouseDetailResponse
@@ -44,6 +46,7 @@ interface ApiService {
     suspend fun getHousesByType(@Query("type_id") typeId: Int): ListingResponse
     @POST("api/users/login")
     suspend fun loginUser(@Body request: LoginRequest): Response<LoginResponse>
+   
     @POST("api/users/register")
     suspend fun registerUser(
         @Body user: RegisterRequest
@@ -95,6 +98,17 @@ interface ApiService {
         @Path("id") id: Int,
         @Body updatedProperty: UpdatePropertyRequest
     ): Response<HouseListing>
+    @GET("/favorite/{user_id}")
+    suspend fun getFavoriteHouses(@Path("user_id") userId: String): FavoriteResponse
+
+    @GET("listings")
+    suspend fun getHousesByLocation(
+        @Query("city") city: String,
+        @Query("type") typeId: Int?,
+        @Query("minPrice") minPrice: Int?,
+        @Query("maxPrice") maxPrice: Int?
+    ): Response<ListingResponse>
+
 
 
 

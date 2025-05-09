@@ -2,7 +2,6 @@ package com.example.houserental.view
 
 import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -29,17 +28,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.viewModel.HomeViewModel
 import com.example.houserental.viewModel.HomeViewModelFactory
-import com.example.houserental.viewModel.ManageHomeViewModel
-import com.example.houserental.viewModel.ManageHomeViewModelFactory
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     val repository = remember { HomeRepository(RetrofitInstance.api) }
     val factory = remember { HomeViewModelFactory(repository) }
     val viewModel: HomeViewModel = viewModel(factory = factory)
@@ -62,17 +60,23 @@ fun HomeScreen() {
         SectionHeader("Featured Properties") {
             viewModel.getHomes()
         }
-        HorizontalListingSection(listings)
+        HorizontalListingSection(listings) { id ->
+            navController.navigate("property_detail/$id")
+        }
 
         SectionHeader("For Sale") {
             viewModel.getHomes()
         }
-        VerticalListingSection(listings)
+        V @GET("api/house/{id}")erticalListingSection(listings) { id ->
+            navController.navigate("property_detail/$id")
+        }
 
         SectionHeader("For Rent") {
             viewModel.getHomes()
         }
-        VerticalListingSection(listings)
+        VerticalListingSection(listings) { id ->
+            navController.navigate("property_detail/$id")
+        }
     }
 }
 
@@ -98,7 +102,10 @@ fun SectionHeader(title: String, onViewAllClick: () -> Unit) {
 
 
 @Composable
-fun HorizontalListingSection(houses: List<com.example.houserental.data.model.HouseListing>) {
+fun HorizontalListingSection(
+    houses: List<com.example.houserental.data.model.HouseListing>,
+    onHouseClick: (Int) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -106,17 +113,24 @@ fun HorizontalListingSection(houses: List<com.example.houserental.data.model.Hou
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         houses.forEach { house ->
-            PropertyCard(house, isHorizontal = true)
+            PropertyCard(house, isHorizontal = true) {
+                onHouseClick(house.id)
+            }
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
-fun VerticalListingSection(houses: List<com.example.houserental.data.model.HouseListing>) {
+fun VerticalListingSection(
+    houses: List<com.example.houserental.data.model.HouseListing>,
+    onHouseClick: (Int) -> Unit
+) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         houses.forEach { house ->
-            PropertyCard(house, isHorizontal = false)
+            PropertyCard(house, isHorizontal = false) {
+                onHouseClick(house.id)
+            }
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
@@ -125,22 +139,26 @@ fun VerticalListingSection(houses: List<com.example.houserental.data.model.House
 @Composable
 fun PropertyCard(
     house: com.example.houserental.data.model.HouseListing,
-    isHorizontal: Boolean
+    isHorizontal: Boolean,
+    onClick: () -> Unit
 ) {
-
     Card(
         shape = RoundedCornerShape(12.dp),
         modifier = if (isHorizontal)
-            Modifier.width(250.dp)
+            Modifier
+                .width(250.dp)
+                .clickable { onClick() }
         else
-            Modifier.fillMaxWidth(),
+            Modifier
+                .fillMaxWidth()
+                .clickable { onClick() },
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column {
-//            val imageUrl = house.listingPhotoPaths.firstOrNull()
-//            val newImage = formatImageUrl(imageUrl.toString().toStringng())
-//            Log.d("image url","$newImage")
-            // Wrap image and icon inside a Box
+            val imageUrl = house.listingPhotoPaths.firstOrNull()
+            val newImage = formatImageUrl(imageUrl.toString())
+            Log.d("image url", "$newImage")
+
             Box {
 //                Image(
 //                    painter = rememberAsyncImagePainter(newImage),
@@ -211,5 +229,5 @@ fun IconText(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String
     }
 }
 fun formatImageUrl(originalUrl: String): String {
-    return originalUrl.replace("http://localhost:5500", "https://10.0.2.2:5500")
+    return originalUrl.replace("http://localhost:5500", "http://10.0.2.2:5500")
 }

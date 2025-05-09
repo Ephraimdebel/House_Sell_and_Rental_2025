@@ -44,7 +44,7 @@ class HomeViewModel(
 
             result
                 .onSuccess { response ->
-                    val newData = response.data
+                    val newData = response.data // This line should work if 'data' is in your response
                     if (newData.isNotEmpty()) {
                         // Avoid duplicates
                         listings = (listings + newData).distinctBy { it.id }
