@@ -28,6 +28,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.houserental.ui.theme.BrandColor
 import com.example.houserental.view.components.SectionHeader
 import com.example.houserental.viewModel.EditPropertyViewModel
 
@@ -205,15 +206,33 @@ fun EditPropertyScreen(
                             ?.mapNotNull { it.toIntOrNull() }
                             ?.contains(id) == true
 
+//                        FilterChip(
+//                            selected = selected,
+//                            onClick = { viewModel.toggleFacility(id) },
+//                            label = { Text(name) },
+//                            colors = FilterChipDefaults.filterChipColors(
+//                                selectedContainerColor = Color(0xFF90CAF9),
+//                                containerColor = Color.LightGray,
+//                                labelColor = Color.Black,
+//                                selectedLabelColor = Color.White
+//                            )
+//                        )
+
                         FilterChip(
                             selected = selected,
                             onClick = { viewModel.toggleFacility(id) },
                             label = { Text(name) },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = Color(0xFF90CAF9),
-                                containerColor = Color.LightGray,
+                                selectedContainerColor = BrandColor,
+                                containerColor = Color.White,
                                 labelColor = Color.Black,
                                 selectedLabelColor = Color.White
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                borderColor = Color.LightGray,
+                                selectedBorderColor = Color.LightGray,
+                                enabled = true,
+                                selected = selected
                             )
                         )
                     }

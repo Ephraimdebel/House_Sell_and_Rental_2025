@@ -1,24 +1,30 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
-package com.example.onlytry
+package com.example.houserental
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.houserental.ui.theme.BrandColor
+import com.example.houserental.ui.theme.Placeholder
+import com.example.houserental.ui.theme.Subtext
 import com.example.houserental.viewModel.LoginViewModel
 
 @Composable
@@ -26,7 +32,7 @@ fun LoginScreen(
     onBackClick: () -> Unit = {},
     onSignUpClick: () -> Unit = {},
     onLoginSuccess: () -> Unit = {},
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -56,20 +62,22 @@ fun LoginScreen(
                 )
                 Divider(thickness = 1.dp, color = Color.LightGray)
             }
-        }
+        },
+        containerColor = Color(0xFFF7F7F7)
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 24.dp)
-                .verticalScroll(rememberScrollState())
+                .background(Color(0xFFF7F7F7))
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp)
         ) {
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
                 text = "Welcome Back",
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold
             )
 
@@ -78,33 +86,45 @@ fun LoginScreen(
             Text(
                 text = "Sign in to your account",
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
+                color = Subtext
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            // Email Field
             Text("Email", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(10.dp))
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
-                placeholder = { Text("Enter your email") },
+                placeholder = { Text("Enter your email", color = Placeholder) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 shape = RoundedCornerShape(8.dp),
-                leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) }
+                leadingIcon = { Icon(Icons.Filled.Email, contentDescription = null) },
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    disabledContainerColor = Color.White,
+                    focusedBorderColor = BrandColor,
+                    unfocusedBorderColor = Color.LightGray,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                )
             )
 
             Spacer(modifier = Modifier.height(25.dp))
 
+            // Password Field
             Text("Password", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(4.dp))
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                placeholder = { Text("Enter your password") },
+                placeholder = { Text("Enter your password", color = Placeholder) },
                 modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
                 visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     IconButton(onClick = { passwordVisible = !passwordVisible }) {
@@ -114,21 +134,34 @@ fun LoginScreen(
                         )
                     }
                 },
-                shape = RoundedCornerShape(8.dp)
+                shape = RoundedCornerShape(8.dp),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    disabledContainerColor = Color.White,
+                    focusedBorderColor = BrandColor,
+                    unfocusedBorderColor = Color.LightGray,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                )
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            if (viewModel.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-            }
-
+            // Error message
             viewModel.errorMessage?.let {
                 Text(text = it, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
             }
 
+            // Loading indicator
+            if (viewModel.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+            }
+
             Spacer(modifier = Modifier.height(36.dp))
 
+            // Login Button
             Button(
                 onClick = { viewModel.login(email, password) },
                 modifier = Modifier
@@ -143,14 +176,26 @@ fun LoginScreen(
                 Text("Login", style = MaterialTheme.typography.labelLarge)
             }
 
+            // Success message
+            if (viewModel.loginSuccess) {
+                Text(
+                    text = "Successfully logged in",
+                    color = Color.Green,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 8.dp)
+                )
+            }
+
             Spacer(modifier = Modifier.height(12.dp))
 
+            // Signup option
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Don't have an account? ")
+                Text("Don't have an account?")
                 TextButton(onClick = onSignUpClick) {
                     Text("Sign Up", color = BrandColor)
                 }

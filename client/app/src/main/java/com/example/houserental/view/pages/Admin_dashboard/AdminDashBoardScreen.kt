@@ -20,7 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
-import com.example.houserental.ui.theme.brand
+import com.example.houserental.ui.theme.BrandColor
 import com.example.houserental.view.components.DashboardCard
 import com.example.houserental.view.components.ManagementCard
 import com.example.houserental.view.components.ValueCard
@@ -133,29 +133,13 @@ fun AdminDashboardScreen(
                 onClick = onAddPropertyClick,
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = brand,
+                    containerColor = BrandColor,
                     contentColor = Color.White // for the text
                 )
             ) {
                 Text("Add new property")
             }
 
-            Spacer(Modifier.height(16.dp))
-
-            // Added button to navigate to Property Detail Screen
-            Button(
-                onClick = {
-                    // Navigate to PropertyDetailScreen with a sample houseId (e.g., 1)
-                    navController.navigate("property_detail/1")
-                },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF5D9DF0),
-                    contentColor = Color.White
-                )
-            ) {
-                Text("Go to Property Detail")
-            }
         }
     }
 }

@@ -40,7 +40,8 @@ fun UserNavGraph(navController: NavHostController) {
                 ProfileScreen(
                     onGotoAdminDashboard = {
                         navController.navigate("admin_dashboard_root")
-                    }
+                    },
+                    navController = navController
                 )
 
             }

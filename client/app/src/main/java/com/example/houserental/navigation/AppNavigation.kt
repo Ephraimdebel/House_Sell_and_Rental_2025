@@ -6,14 +6,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+<<<<<<< HEAD
+=======
+import com.example.houserental.LoginScreen
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 import com.example.houserental.view.*
 import com.example.houserental.view.components.BottomNavBar
 import com.example.houserental.view.pages.add_property.*
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 import com.example.houserental.ui.pages.home_detail.PropertyDetailScreen
+<<<<<<< HEAD
+=======
+import com.example.onlytry.SignUpScreen
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 
 @Composable
 fun AppNavigation() {
@@ -53,7 +62,8 @@ fun AppNavigation() {
                 ProfileScreen(
                     onGotoAdminDashboard = {
                         navController.navigate("admin_dashboard")
-                    }
+                    },
+                    navController = navController
                 )
             }
 
@@ -83,6 +93,27 @@ fun AppNavigation() {
                     onBack = { navController.popBackStack() }
                 )
             }
+            composable("login") {
+                LoginScreen(
+                    onBackClick = { navController.popBackStack() },
+                    onSignUpClick = { navController.navigate("signup") },
+                    onLoginSuccess = {
+                        navController.navigate("home") {
+                            popUpTo("login") { inclusive = true } // Prevent back nav to login
+                        }
+                    },
+                    viewModel = hiltViewModel()
+                )
+            }
+
+            composable("signup") {
+                SignUpScreen(
+                    onBackClick = { navController.popBackStack() },
+                    onLoginClick = { navController.navigate("login") },
+                    viewModel = hiltViewModel()
+                )
+            }
+
 
             composable(
                 "edit_property/{id}",
@@ -106,6 +137,10 @@ fun AppNavigation() {
                     )
                 }
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
         }
     }
 }

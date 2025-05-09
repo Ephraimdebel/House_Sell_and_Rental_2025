@@ -29,13 +29,16 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
     }
@@ -63,25 +66,35 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-    implementation("androidx.navigation:navigation-compose:2.6.0")
 
+    // ✅ Only include one version of navigation-compose
+    // You had both 2.7.7 and 2.6.0 — kept 2.7.7 (latest)
+    // implementation("androidx.navigation:navigation-compose:2.6.0") — Removed
+
+    // Retrofit & networking
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    // For Multipart image upload (uses OkHttp)
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
-    // For Kotlin Coroutines (used in ViewModel & Retrofit)
+
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // For activity result APIs (used for image picking from gallery)
+    // Activity result APIs
     implementation("androidx.activity:activity-ktx:1.7.2")
 
-    // For permissions (optional but helpful)
+
+
     implementation("com.google.accompanist:accompanist-permissions:0.31.3-beta")
 
+    // Compose Foundation & Material
     implementation("androidx.compose.foundation:foundation:1.5.0")
+<<<<<<< HEAD
     implementation("androidx.compose.material3:material3:1.2.0") // Keep this only
+=======
+
+    implementation("androidx.compose.material3:material3:1.2.0")
+>>>>>>> f06f22104fc1ddf338cb88285e2f36e665e28718
 
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
