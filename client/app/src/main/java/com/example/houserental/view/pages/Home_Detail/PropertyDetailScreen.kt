@@ -1,11 +1,13 @@
 package com.example.houserental.ui.pages.home_detail
 
-import android.widget.Toast
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -15,15 +17,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.houserental.R
+import com.example.houserental.data.repository.HomeRepository
+import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.viewModel.HouseDetailViewModel
 import com.example.houserental.viewModel.HouseDetailViewModelFactory
 import com.google.accompanist.flowlayout.FlowRow
@@ -44,9 +48,9 @@ fun PropertyDetailTopBar(navController: NavController) {
 
 @Composable
 fun PropertyDetailScreen(houseId: Int, navController: NavController) {
-    val viewModel: HouseDetailViewModel = viewModel()
+    val viewModel: HouseDetailViewModel = hiltViewModel() // Using Hilt ViewModel injection
 
-    // Load the house details
+    // Load the house details when the screen is first launched
     LaunchedEffect(houseId) {
         viewModel.loadHouseDetail(houseId)
     }
@@ -55,6 +59,7 @@ fun PropertyDetailScreen(houseId: Int, navController: NavController) {
         PropertyDetailPage(viewModel = viewModel, houseId = houseId, modifier = Modifier.padding(paddingValues))
     }
 }
+
 
 @Composable
 fun PropertyDetailPage(
@@ -67,7 +72,10 @@ fun PropertyDetailPage(
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
+
+    Log.d("PropertyDetailPage", "House: $house, Amenities: $amenities")
     // Show loading indicator
+
     if (isLoading) {
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
@@ -84,8 +92,12 @@ fun PropertyDetailPage(
     }
 
     house?.let { houseData ->
-        Column(modifier = modifier.padding(16.dp)) {
-            val firstImageUrl = houseData.listingPhotoPaths.firstOrNull()?.replace("localhost", "10.0.2.2")
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ){
+            val firstImageUrl = houseData.listingPhotoPaths.firstOrNull()?.replace("undefined", "10.0.2.2")
 
             firstImageUrl?.let { imageUrl ->
                 AsyncImage(
@@ -123,7 +135,7 @@ fun PropertyDetailPage(
 
             Text("Amenities", fontWeight = FontWeight.Bold, fontSize = 18.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            AmenitiesSection(amenities)
+            AmenitiesSection(houseData.facilities.toIntList())
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -191,4 +203,9 @@ fun AmenitiesSection(amenityIds: List<Int>) {
             }
         }
     }
+}
+
+fun String.toIntList(): List<Int> {
+    return this.split(",")
+        .mapNotNull { it.trim().toIntOrNull() }
 }

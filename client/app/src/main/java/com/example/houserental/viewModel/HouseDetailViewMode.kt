@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 
-class HouseDetailViewModel(private val repository: HomeRepository) : ViewModel() {
+class HouseDetailViewModel(
+    private val repository: HomeRepository
+) : ViewModel() {
 
     // House details state (nullable to handle loading state)
     private val _house = MutableStateFlow<House?>(null)

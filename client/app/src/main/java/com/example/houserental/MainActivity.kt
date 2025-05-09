@@ -24,6 +24,7 @@ import com.example.houserental.navigation.AppNavigation
 import androidx.compose.ui.platform.LocalContext
 import com.example.houserental.navigation.AdminNavGraph
 import com.example.houserental.ui.theme.brand
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

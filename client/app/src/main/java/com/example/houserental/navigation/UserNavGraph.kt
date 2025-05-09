@@ -32,7 +32,7 @@ fun UserNavGraph(navController: NavHostController) {
             modifier = Modifier.padding(it)
         ) {
             composable("home") {
-                HomeScreen()
+                HomeScreen(navController = navController)
             }
             composable("search") { /* "SearchScreen(navController) " */}
             composable("favorite") { /*FavoriteScreen(navController) */}
