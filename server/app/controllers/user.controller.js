@@ -73,7 +73,7 @@ async function login(req, res) {
   try {
     // Check if the user exists, including the 'role' field
     const user = await dbConnection.query(
-      "SELECT id, password, role FROM Users WHERE email = ?",
+      "SELECT id, password,full_name, role FROM Users WHERE email = ?",
       [email]
     );
 
@@ -101,13 +101,13 @@ async function login(req, res) {
     }
 
     // Generate a token with the user's role included
-    const username = userData.userName;
+    const username = userData.full_name;
     const userid = userData.id;
     const role = userData.role; // Get the role from the database
 
     const token = jwt.sign({ username, userid, role }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    return res.status(StatusCodes.OK).json({ msg: "Login success", token, username, userid, role });
+    return res.status(StatusCodes.OK).json({ msg: "Login success", token, username, userid, role ,email});
   } catch (error) {
     console.error("Login error:", error.message, error.stack);
     return res

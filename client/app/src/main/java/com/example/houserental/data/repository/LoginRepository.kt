@@ -4,19 +4,30 @@ import LoginRequest
 import LoginResponse
 import RegisterRequest
 import RegisterResponse
+import android.content.Context
 import com.example.houserental.data.api.ApiService
+import com.example.houserental.preferences.UserPreferences
 import org.json.JSONObject
 import retrofit2.HttpException
 
 class AuthRepository(
     private val api: ApiService
 ) {
-    suspend fun login(email: String, password: String): Result<LoginResponse> {
+    suspend fun login(email: String, password: String, context: Context): Result<LoginResponse> {
         return try {
             val response = api.loginUser(LoginRequest(email, password))
             if (response.isSuccessful) {
-                response.body()?.let { Result.success(it) }
-                    ?: Result.failure(Exception("Empty response body"))
+                response.body()?.let { loginResponse ->
+                    UserPreferences.saveUser(
+                        context = context,
+                        token = loginResponse.token,
+                        name = loginResponse.username,
+                        email = loginResponse.email, // ✅ Use the same email the user entered
+                        id = loginResponse.userid.toString(),
+                        role = loginResponse.role
+                    )
+                    Result.success(loginResponse)
+                } ?: Result.failure(Exception("Empty response body"))
             } else {
                 Result.failure(Exception("Login failed: ${response.errorBody()?.string()}"))
             }
@@ -57,6 +68,5 @@ class AuthRepository(
             Result.failure(e)
         }
     }
-
-
 }
+

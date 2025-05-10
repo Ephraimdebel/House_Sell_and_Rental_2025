@@ -14,4 +14,6 @@ val BrandColor = Color(0xFF3D8FF1)
 val Placeholder = Color(0xFF8D8D8D)
 val BorderColor = Color(0x60D9D9D9)
 val Subtext = Color(0x60171717)
+val Background = Color(0xFFF7F7F7)
+val BlackText = Color(0xFF000000)
 
