@@ -17,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -153,8 +154,9 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(36.dp))
 
             // Login Button
+            val context = LocalContext.current
             Button(
-                onClick = { viewModel.login(email, password) },
+                onClick = { viewModel.login(email, password,context) },
                 enabled = !viewModel.isLoading,
                 modifier = Modifier
                     .fillMaxWidth()

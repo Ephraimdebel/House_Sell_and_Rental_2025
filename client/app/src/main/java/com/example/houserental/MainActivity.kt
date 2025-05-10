@@ -10,6 +10,7 @@ import com.example.houserental.ui.theme.HouseRentalTheme
 import com.example.houserental.navigation.AppNavigation
 import androidx.compose.ui.platform.LocalContext
 import com.example.houserental.navigation.AdminNavGraph
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -7,9 +7,11 @@ import LoginResponse
 //import com.example.houserental.data.model.FavoriteResponse
 import RegisterRequest
 import RegisterResponse
+import com.example.houserental.data.model.FavoriteRequest
 import com.example.houserental.data.model.HouseDetailResponse
 import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.ListingResponse
+import com.example.houserental.data.model.MessageResponse
 import com.example.houserental.data.model.PropertyResponse
 import com.example.houserental.data.model.UpdatePropertyRequest
 import okhttp3.MultipartBody
@@ -54,7 +56,8 @@ interface ApiService {
 
     @GET("house/{id}")
     suspend fun getHouseDetail(@Path("id") id: Int): Response<HouseDetailResponse>
-
+    @POST("addfavourite")
+    suspend fun addToFavorite(@Body request: FavoriteRequest): Response<MessageResponse>
 
 //    @Multipart
 //    @POST("/api/addHouse")
