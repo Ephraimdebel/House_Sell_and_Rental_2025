@@ -9,8 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel(
     private val repository: HomeRepository
 ) : ViewModel() {
 
@@ -28,18 +27,12 @@ class SearchViewModel @Inject constructor(
             isLoading.value = true
             errorMessage.value = null
 
-            // Make sure searchHomes in HomeRepository returns a Result<List<HouseListing>>
             val result = repository.searchHomes(city, minPrice, maxPrice, typeId)
-
             isLoading.value = false
 
             result
-                .onSuccess { response ->
-                    searchResults.value = response
-                }
-                .onFailure {
-                    errorMessage.value = it.message
-                }
+                .onSuccess { response -> searchResults.value = response }
+                .onFailure { errorMessage.value = it.message }
         }
     }
 }

@@ -9,27 +9,40 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
+import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.view.PropertyCard
 import com.example.houserental.viewModel.SearchViewModel
+import com.example.houserental.viewModel.SearchViewModelFactory
 
 @Composable
 fun SearchPage(
-    navController: NavController, // Pass the NavController here
-    searchViewModel: SearchViewModel = hiltViewModel()
+    navController: NavController,
+    repository: HomeRepository // Pass the repository manually
 ) {
+    val context = LocalContext.current
+    val viewModel: SearchViewModel = remember {
+        ViewModelProvider(
+            context as ViewModelStoreOwner,
+            SearchViewModelFactory(repository)
+        )[SearchViewModel::class.java]
+    }
+
     var city by remember { mutableStateOf("") }
     var typeId by remember { mutableStateOf("") }
     var minPrice by remember { mutableStateOf("") }
     var maxPrice by remember { mutableStateOf("") }
 
-    val searchResults by searchViewModel.searchResults
-    val searchError by searchViewModel.errorMessage
-    val isLoading by searchViewModel.isLoading
+    val searchResults by viewModel.searchResults
+    val searchError by viewModel.errorMessage
+    val isLoading by viewModel.isLoading
 
     Column(
         modifier = Modifier
@@ -85,7 +98,7 @@ fun SearchPage(
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
-                        searchViewModel.searchHomes(
+                        viewModel.searchHomes(
                             city = city,
                             minPrice = minPrice.toIntOrNull(),
                             maxPrice = maxPrice.toIntOrNull(),
@@ -101,7 +114,7 @@ fun SearchPage(
         // Search Button
         Button(
             onClick = {
-                searchViewModel.searchHomes(
+                viewModel.searchHomes(
                     city = city,
                     minPrice = minPrice.toIntOrNull(),
                     maxPrice = maxPrice.toIntOrNull(),
@@ -132,10 +145,10 @@ fun SearchPage(
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(searchResults) { house ->
                 PropertyCard(house = house, isHorizontal = false) {
-                    // Navigate to Property Detail screen on click
                     navController.navigate("property_detail/${house.id}")
                 }
             }
         }
     }
 }
+

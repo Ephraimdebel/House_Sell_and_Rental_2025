@@ -7,13 +7,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.houserental.LoginScreen
 import com.example.houserental.data.repository.AuthRepository
+import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.view.*
 import com.example.houserental.view.components.BottomNavBar
@@ -35,6 +35,9 @@ fun AppNavigation() {
     // Define which screens should show the BottomNavBar
     val bottomNavItems = listOf("home", "search", "favorite", "profile")
 
+
+    val homeRepositoryInstance = HomeRepository(RetrofitInstance.api)
+
     Scaffold(
         bottomBar = {
             if (currentRoute in bottomNavItems) {
@@ -52,9 +55,9 @@ fun AppNavigation() {
                 HomeScreen(navController = navController)
             }
 
-            composable("search") {
-                SearchPage(navController = navController) // Navigating to SearchPage
-            }
+//            composable("search") {
+//                SearchPage(navController = navController) // Navigating to SearchPage
+//            }
 
             composable("favorite") {
                 // TODO: Replace with your actual FavoriteScreen()
@@ -157,6 +160,9 @@ fun AppNavigation() {
                         houseId = id
                     )
                 }
+            }
+            composable("search") {
+                SearchPage(navController = navController, repository = homeRepositoryInstance)
             }
         }
     }
