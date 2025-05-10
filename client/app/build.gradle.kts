@@ -54,6 +54,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)  // Make sure only this is included
     implementation(libs.androidx.navigation.runtime.android)
+    implementation(libs.androidx.compiler)
+    implementation(libs.androidx.constraintlayout)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -101,4 +103,12 @@ dependencies {
     implementation( "androidx.lifecycle:lifecycle-runtime-compose:2.6.1")
     // Ensure you have the Compose dependencies as well
     implementation( "androidx.compose.runtime:runtime-livedata:1.4.0")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    configurations.all {
+        resolutionStrategy {
+            // Force Guava version (pick one)
+            force("com.google.guava:guava:31.1-android") // For Android
+            // OR force("com.google.guava:guava:32.1.2-jre") // For JVM projects
+        }
+    }
 }

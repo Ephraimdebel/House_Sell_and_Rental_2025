@@ -20,8 +20,7 @@ import java.io.File
 import javax.inject.Inject
 
 
-@HiltViewModel
-class EditPropertyViewModel @Inject constructor(
+class EditPropertyViewModel(
     private val repository: HomeRepository
 ) : ViewModel() {
 
