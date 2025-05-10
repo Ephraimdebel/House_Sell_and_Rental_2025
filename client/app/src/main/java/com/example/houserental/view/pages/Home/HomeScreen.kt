@@ -72,6 +72,7 @@ fun HomeScreen(navController: NavController) {
         factory = favoriteViewModelFactory,
         viewModelStoreOwner = viewModelStoreOwner!!
     )
+
     val userDetails = UserPreferences.getUserDetails(context).collectAsState(initial = LoginResponse(msg = "",
         token = "",
         username = "",
@@ -196,7 +197,9 @@ fun PropertyCard(
     onClick: () -> Unit
 ) {
     val context = LocalContext.current
-    var isFavorited by remember { mutableStateOf(false) }
+    var isFavorited by remember {
+        mutableStateOf(viewModel.isHouseFavorited(house.id))
+    }
 
     Card(
         shape = RoundedCornerShape(12.dp),
@@ -265,7 +268,8 @@ fun PropertyCard(
                         Icon(
                             imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite",
-                            tint = Color.White)
+                            tint = if (isFavorited) Color.Red else Color.White
+                        )
                     }
                 }
 
@@ -338,9 +342,9 @@ fun PropertyCard(
                             .size(32.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
+                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite",
-                            tint = Color.White
+                            tint = if (isFavorited) Color.Red else Color.White
                         )
                     }
                 }
