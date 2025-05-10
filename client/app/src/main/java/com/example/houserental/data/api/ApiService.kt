@@ -1,13 +1,13 @@
 package com.example.houserental.data.api
 
 
-import FavoriteResponse
 import LoginRequest
 import LoginResponse
 //import com.example.houserental.data.model.FavoriteResponse
 import RegisterRequest
 import RegisterResponse
 import com.example.houserental.data.model.FavoriteRequest
+import com.example.houserental.data.model.FavoriteResponse
 import com.example.houserental.data.model.HouseDetailResponse
 import com.example.houserental.data.model.HouseListing
 import com.example.houserental.data.model.ListingResponse
@@ -56,8 +56,11 @@ interface ApiService {
 
     @GET("house/{id}")
     suspend fun getHouseDetail(@Path("id") id: Int): Response<HouseDetailResponse>
-    @POST("addfavourite")
+    @POST("api/addfavourite")
     suspend fun addToFavorite(@Body request: FavoriteRequest): Response<MessageResponse>
+    @GET("api/favorite/{user_id}")
+    suspend fun getFavorites(@Path("user_id") userId: Int): FavoriteResponse
+
 
 //    @Multipart
 //    @POST("/api/addHouse")
