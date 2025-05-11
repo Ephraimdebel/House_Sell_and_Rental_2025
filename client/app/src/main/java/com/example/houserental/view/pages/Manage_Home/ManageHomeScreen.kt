@@ -39,7 +39,11 @@ import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.ui.theme.Background
+import com.example.houserental.ui.theme.BlackText
 import com.example.houserental.ui.theme.BrandColor
+import com.example.houserental.ui.theme.BrownText
+import com.example.houserental.ui.theme.GoldButton
+import com.example.houserental.ui.theme.RedButton
 import com.example.houserental.view.components.CustomSearchBar
 import com.example.houserental.viewModel.ManageHomeViewModelFactory
 import compose.icons.fontawesomeicons.SolidGroup
@@ -68,11 +72,11 @@ fun ManageHomeScreen(
         containerColor = Color(0xFFF5F5F5),
         topBar = {
             TopAppBar(
-                title = { Text("Manage Properties",color = Color(0xFF5D9DF0))},
+                title = { Text("Manage Properties",color = BrandColor)},
 
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = BrandColor)
                     }
                 },
 
@@ -173,12 +177,14 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                     Text(
                         house.title,
                         fontWeight = FontWeight.Bold,
+                        color = BlackText,
+                        fontSize = 20.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodyLarge
                     )
 
-                    Text("${house.city}, ${house.streetAddress}", fontSize = 12.sp, color = Color.Gray)
+                    Text("${house.city}, ${house.streetAddress}", fontSize = 14.sp, color = BrownText)
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Surface(
@@ -209,6 +215,8 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
+                    Spacer(modifier = Modifier.height(8.dp))
+
                     Surface(
                         shape = CircleShape,
                         color = Color(0xFFF0F0F0),
@@ -218,18 +226,18 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                             Icon(
                                 Icons.Filled.Star,
                                 contentDescription = "Star",
-                                tint = Color.Yellow
+                                tint = GoldButton
                             )
                         }
                     }
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Surface(
                         shape = CircleShape,
-                        color = Color(0xFFF0F0F0),
+                        color = BrandColor,
                         modifier = Modifier.size(36.dp)
                     ) {
                         IconButton(onClick = onEdit) {
-                            Icon(Icons.Filled.Edit, contentDescription = "Edit", tint = BrandColor)
+                            Icon(Icons.Filled.Edit, contentDescription = "Edit")
                         }
                     }
                     Spacer(modifier = Modifier.width(8.dp))
@@ -242,7 +250,7 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                             Icon(
                                 Icons.Filled.Delete,
                                 contentDescription = "Delete",
-                                tint = Color.Red
+                                tint = RedButton
                             )
                         }
                     }

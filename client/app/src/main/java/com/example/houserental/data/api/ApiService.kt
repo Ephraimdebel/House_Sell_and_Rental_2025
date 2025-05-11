@@ -68,8 +68,6 @@ interface ApiService {
     ): Response<MessageResponse>
 
 
-
-
     @GET("api/house")
     suspend fun getAllHouse():Response<ListingResponse>
 //    @Multipart

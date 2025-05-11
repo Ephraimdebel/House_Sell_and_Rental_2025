@@ -2,6 +2,7 @@ package com.example.houserental.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,7 +22,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -34,14 +34,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.houserental.R
 import com.example.houserental.data.repository.UserRepository
 import com.example.houserental.network.RetrofitInstance
+import com.example.houserental.ui.theme.BlackText
+import com.example.houserental.ui.theme.BrandColor
 import com.example.houserental.viewModel.ManageUsersViewModel
 import com.example.houserental.viewModel.ManageUsersViewModelFactory
 import compose.icons.fontawesomeicons.RegularGroup
@@ -69,7 +73,7 @@ fun ManageUsersScreen(onBack: () -> Unit, navController: NavController) {
                 title = { Text("Manage Users", color = Color(0xFF5D9DF0)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back", tint = BrandColor)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
@@ -96,6 +100,13 @@ fun ManageUsersScreen(onBack: () -> Unit, navController: NavController) {
                               },
                 shape = RoundedCornerShape(16.dp), // Ensure rounded shape is set
                 singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = BrandColor,
+                    unfocusedBorderColor = Color.LightGray,
+                    cursorColor = BrandColor,
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.Black
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White, shape = RoundedCornerShape(16.dp)) // Add background
@@ -131,7 +142,7 @@ fun ManageUsersScreen(onBack: () -> Unit, navController: NavController) {
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Image(
-                                        painter = rememberImagePainter("https://randomuser.me/api/portraits/men/${user.id}.jpg"),
+                                        painter = painterResource(id= R.drawable.img),
                                         contentDescription = null,
                                         modifier = Modifier
                                             .size(64.dp)
@@ -144,18 +155,20 @@ fun ManageUsersScreen(onBack: () -> Unit, navController: NavController) {
                                             .padding(horizontal = 24.dp),
                                         horizontalAlignment = Alignment.Start
                                     ) {
-                                        Text(user.fullName, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                                        Text(user.email, style = MaterialTheme.typography.bodyMedium)
+                                        Text(user.fullName, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold,color = BlackText)
+                                        Text(user.email, style = MaterialTheme.typography.bodyMedium, color =  BlackText)
                                         Row(verticalAlignment = Alignment.CenterVertically) {
                                             Icon(
                                                 imageVector = SolidGroup.Phone,
                                                 modifier = Modifier.size(14.dp),
-                                                contentDescription = "Phone Icon"
+                                                contentDescription = "Phone Icon",
+                                                tint = BlackText
                                             )
                                             Spacer(modifier = Modifier.width(8.dp))
                                             Text(
                                                 text = user.phoneNumber,
-                                                style = MaterialTheme.typography.bodyMedium
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                color = BlackText
                                             )
 
                                         }
@@ -175,7 +188,7 @@ fun ManageUsersScreen(onBack: () -> Unit, navController: NavController) {
                                             Text(
                                                 text = user.role,
                                                 style = MaterialTheme.typography.bodyMedium,
-                                                color = textColor
+                                                color = BlackText
                                             )
                                         }
                                     }

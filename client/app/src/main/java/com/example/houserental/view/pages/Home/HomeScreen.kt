@@ -150,7 +150,7 @@ fun SectionHeader(title: String, onViewAllClick: () -> Unit) {
         Text(
             "View All",
             fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.primary,
+            color = BrandColor,
             modifier = Modifier.clickable { onViewAllClick() }
         )
     }

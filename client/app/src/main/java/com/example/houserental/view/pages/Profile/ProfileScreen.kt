@@ -97,7 +97,11 @@ fun ProfileScreen(onGotoAdminDashboard: () -> Unit, navController: NavController
                 ),
             )
         },
-        modifier = Modifier.padding(5.dp)
+        containerColor = Color.White,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)   //Apply white background at the root level
+            .padding(5.dp)
     ) { innerPadding ->
         val scrollState = rememberScrollState()
 
@@ -117,7 +121,7 @@ fun ProfileScreen(onGotoAdminDashboard: () -> Unit, navController: NavController
                     .verticalScroll(scrollState)
             ) {
                 Text("My Profile", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = Color.Black)
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(1.dp))
                 // Check if the user is logged in
                 if (isLoggedIn) {
                     // User is logged in, display profile info

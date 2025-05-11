@@ -36,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
+import com.example.houserental.ui.theme.BlackText
 import com.example.houserental.ui.theme.BrandColor
 import com.example.houserental.view.components.LabeledTextField
 import com.example.houserental.view.components.SectionHeader
@@ -74,11 +75,11 @@ fun AddPropertyScreen(navController: NavController,) {
         containerColor = Color(0xFFF5F5F5),
         topBar = {
             TopAppBar(
-                title = { Text("Add Property") },
+                title = { Text("Add Property", color = BrandColor) },
 
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = BrandColor)
                     }
                 },
 
@@ -108,7 +109,7 @@ fun AddPropertyScreen(navController: NavController,) {
                     onValueChange = { viewModel.description = it }
                 )
 
-                Text("Property Type")
+                Text("Property Type",color= BlackText)
                 SelectableChips(
                     options = listOf("House", "Apartment", "Condo", "Townhouse", "Villa"),
                     selected = viewModel.propertyType,
@@ -117,7 +118,7 @@ fun AddPropertyScreen(navController: NavController,) {
                     }
                 )
 
-                Text("Listing Type")
+                Text("Listing Type",color=BlackText)
                 SelectableChips(
                     options = listOf("For Sale", "For Rent"),
                     selected = viewModel.listingType,

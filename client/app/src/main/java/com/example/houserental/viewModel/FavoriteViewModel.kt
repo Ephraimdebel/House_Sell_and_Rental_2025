@@ -44,7 +44,7 @@ class FavoriteViewModel(private val repository: FavoriteRepository) : ViewModel(
     }
     private val _favoriteHouseIds = MutableStateFlow<List<Int>>(emptyList())
     val favoriteHouseIds: StateFlow<List<Int>> = _favoriteHouseIds
-    
+
 
 
 
