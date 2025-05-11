@@ -21,12 +21,33 @@ class FavoriteRepository(private val api: ApiService) {
             Result.failure(e)
         }
     }
+    suspend fun removeFromFavorite(userId: Int, listingId: Int): Result<String> {
+        return try {
+            // Call the API to remove the favorite using the correct parameters
+            val response = api.removeFromFavorite(userId, listingId)
+
+            if (response.isSuccessful) {
+                // Return success message
+                Result.success(response.body()?.message ?: "Removed from favorites")
+            } else {
+                // Handle failure scenario
+                val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                val errorMessage = "Error: ${response.code()} - $errorBody"
+                println("❌ Failed with code ${response.code()}: $errorMessage")
+                Result.failure(Exception(errorMessage))
+            }
+        } catch (e: Exception) {
+            // Handle any exceptions
+            println("❌ Exception: ${e.localizedMessage}")
+            Result.failure(e)
+        }
+    }
+
 
     suspend fun getFavoriteHouses(userId: Int): List<HouseListing> {
         val response = api.getFavorites(userId)
         Log.d("FavoriteViewModel", "Fetched favorites response: $response")
         return response.favorites
     }
-
 
 }

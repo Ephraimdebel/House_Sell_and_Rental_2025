@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,10 +51,16 @@ fun PropertyCard(
     isHorizontal: Boolean,
     userId: Int,
     viewModel: FavoriteViewModel,
+    onRemoveFavorite: () -> Unit,
     onClick: () -> Unit
 ) {
     val context = LocalContext.current
     var isFavorited by remember { mutableStateOf(false) }
+
+    // Check if the house is already in favorites
+    LaunchedEffect(house.id) {
+        isFavorited = viewModel.isHouseFavorited(house.id)
+    }
 
     Card(
         shape = RoundedCornerShape(12.dp),
@@ -104,12 +111,26 @@ fun PropertyCard(
                     // Favorite Icon (on image)
                     IconButton(
                         onClick = {
-                            viewModel.addToFavorite(userId, house.id) { success ->
-                                if (success) {
-                                    isFavorited = true
-                                    Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(context, "Failed to add favorite", Toast.LENGTH_SHORT).show()
+                            if (isFavorited) {
+                                // Remove from favorites
+                                viewModel.removeFromFavorite(userId, house.id) { success ->
+                                    if (success) {
+                                        isFavorited = false
+                                        Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show()
+                                        onRemoveFavorite() // ✅ update the UI list immediately
+                                    } else {
+                                        Toast.makeText(context, "Failed to remove from favorites", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            } else {
+                                // Add to favorites
+                                viewModel.addToFavorite(userId, house.id) { success ->
+                                    if (success) {
+                                        isFavorited = true
+                                        Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Failed to add to favorites", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
                         },
@@ -151,7 +172,7 @@ fun PropertyCard(
                 Box(modifier = Modifier.fillMaxWidth().height(180.dp)) {
                     if (house.listingPhotoPaths.isNotEmpty()) {
                         val imageUrl = house.listingPhotoPaths.first()
-                            .replace("http://localhost:5500", "https://house-rental-backend-4vof.onrender.com")
+                            .replace("http://localhost:5500", "http://10.0.2.2:5500")
                         AsyncImage(
                             model = imageUrl,
                             contentDescription = null,
@@ -179,12 +200,25 @@ fun PropertyCard(
                     // Favorite Icon (on image)
                     IconButton(
                         onClick = {
-                            viewModel.addToFavorite(userId, house.id) { success ->
-                                if (success) {
-                                    isFavorited = true
-                                    Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    Toast.makeText(context, "Failed to add favorite", Toast.LENGTH_SHORT).show()
+                            if (isFavorited) {
+                                // Remove from favorites
+                                viewModel.removeFromFavorite(userId, house.id) { success ->
+                                    if (success) {
+                                        isFavorited = false
+                                        Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Failed to remove from favorites", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            } else {
+                                // Add to favorites
+                                viewModel.addToFavorite(userId, house.id) { success ->
+                                    if (success) {
+                                        isFavorited = true
+                                        Toast.makeText(context, "Added to favorites", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Failed to add to favorites", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
                         },
@@ -195,7 +229,7 @@ fun PropertyCard(
                             .size(32.dp)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
+                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite",
                             tint = Color.White
                         )
@@ -203,8 +237,8 @@ fun PropertyCard(
                 }
 
                 Column(modifier = Modifier.padding(6.dp)) {
-                    Text("ETB ${house.price}", fontWeight = FontWeight.Bold,color = BlackText)
-                    Text(house.title, maxLines = 1,color= BlackText)
+                    Text("ETB ${house.price}", fontWeight = FontWeight.Bold, color = BlackText)
+                    Text(house.title, maxLines = 1, color = BlackText)
                     Text("${house.city}, ${house.streetAddress}", fontSize = 12.sp, color = Color.Gray)
 
                     Row(
@@ -220,3 +254,4 @@ fun PropertyCard(
         }
     }
 }
+

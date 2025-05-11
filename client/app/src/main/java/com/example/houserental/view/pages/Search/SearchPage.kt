@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -130,7 +131,16 @@ fun SearchScreen(navController: NavController) {
                                 house = house,
                                 isHorizontal = false,
                                 userId = userId,
-                                viewModel = favoriteViewModel
+                                viewModel = favoriteViewModel,
+                                onRemoveFavorite = {
+                                    favoriteViewModel.removeFromFavorite(userId, house.id) { success ->
+                                        if (success) {
+                                            Log.d("Favorite", "Removed from favorite")
+                                        } else {
+                                            Log.e("Favorite", "Failed to remove favorite")
+                                        }
+                                    }
+                                }
                             ) {
                                 navController.navigate("property_detail/${house.id}")
                             }

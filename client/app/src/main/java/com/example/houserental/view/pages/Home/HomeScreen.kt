@@ -82,6 +82,8 @@ fun HomeScreen(navController: NavController) {
         role = "",
         email = ""))
     val userId = userDetails.value.userid
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -169,9 +171,24 @@ fun HorizontalListingSection(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         houses.forEach { house ->
-            PropertyCard(house, isHorizontal = false,userId,favoriteViewModel) {
+            PropertyCard(
+                house,
+                isHorizontal = false,
+                userId,
+                favoriteViewModel,
+                onRemoveFavorite = {
+                    favoriteViewModel.removeFromFavorite(userId, house.id) { success ->
+                        if (success) {
+                            Log.d("Favorite", "Removed from favorite")
+                        } else {
+                            Log.e("Favorite", "Failed to remove favorite")
+                        }
+                    }
+                }
+            ) {
                 onHouseClick(house.id)
             }
+
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
@@ -193,9 +210,24 @@ fun VerticalListingSection(
 
     Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
         filteredHouses.forEach { house ->
-            PropertyCard(house, isHorizontal = true, userId, favoriteViewModel) {
+            PropertyCard(
+                house,
+                isHorizontal = true,
+                userId,
+                favoriteViewModel,
+                onRemoveFavorite = {
+                    favoriteViewModel.removeFromFavorite(userId, house.id) { success ->
+                        if (success) {
+                            Log.d("Favorite", "Removed from favorite")
+                        } else {
+                            Log.e("Favorite", "Failed to remove favorite")
+                        }
+                    }
+                }
+            ) {
                 onHouseClick(house.id)
             }
+
         }
     }
     Spacer(modifier = Modifier.height(16.dp))
