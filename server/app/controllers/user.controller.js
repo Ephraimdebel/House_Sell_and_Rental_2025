@@ -106,7 +106,7 @@ async function login(req, res) {
     const role = userData.role; // Get the role from the database
 
     const token = jwt.sign({ username, userid, role }, process.env.JWT_SECRET, { expiresIn: "1d" });
-
+console.log(token)
     return res.status(StatusCodes.OK).json({ msg: "Login success", token, username, userid, role ,email});
   } catch (error) {
     console.error("Login error:", error.message, error.stack);

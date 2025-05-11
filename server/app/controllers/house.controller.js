@@ -417,8 +417,18 @@ const addFavorite = async (req, res) => {
   const { user_id, listing_id } = req.body;
 
   try {
-    // Optional: Check if the favorite already exists
-    const existing = await dbConnection.query(
+    // 1. Check if the listing exists
+    const [listing] = await dbConnection.query(
+      "SELECT * FROM Listings WHERE id = ?",
+      [listing_id]
+    );
+
+    if (listing.length === 0) {
+      return res.status(404).json({ message: "Listing does not exist" });
+    }
+
+    // 2. Check if the favorite already exists
+    const [existing] = await dbConnection.query(
       "SELECT * FROM Favorites WHERE user_id = ? AND listing_id = ?",
       [user_id, listing_id]
     );
@@ -427,7 +437,7 @@ const addFavorite = async (req, res) => {
       return res.status(409).json({ message: "Already in favorites" });
     }
 
-    // Insert new favorite
+    // 3. Insert new favorite
     await dbConnection.query(
       "INSERT INTO Favorites (user_id, listing_id) VALUES (?, ?)",
       [user_id, listing_id]
@@ -435,10 +445,11 @@ const addFavorite = async (req, res) => {
 
     res.status(201).json({ message: "Added to favorites" });
   } catch (err) {
-    console.error("Error adding to favorites:", err);
-    res.status(500).json({ message: "Server error" });
+    console.error("Error adding to favorites:", err.message);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
 
 const removeFavorite = async (req, res) => {
   const { user_id, listing_id } = req.params; 
@@ -544,41 +555,22 @@ const deleteProperty = async (req, res) => {
     }
 
     // Check if the property exists
-    const checkQuery = `
-      SELECT * FROM Listings WHERE id = ?
-    `;
-    const property = await dbConnection.query(checkQuery, [id]);
+    const checkQuery = `SELECT * FROM Listings WHERE id = ?`;
+    const [property] = await dbConnection.query(checkQuery, [id]);
+
     if (property.length === 0) {
       return res.status(404).json({ message: "Property not found" });
     }
 
-    // Ensure the user is authorized to delete the property
-    // const isAdmin = req.user.role === "admin";
-    // const isOwner = property[0].creator_id === req.user.userid;
+    // Delete related favorites first
+    const deleteFavoritesQuery = `DELETE FROM Favorites WHERE listing_id = ?`;
+    await dbConnection.query(deleteFavoritesQuery, [id]);
 
-    // if (!isAdmin && !isOwner) { // Corrected logic: user must be either admin or owner
-    //   return res.status(403).json({ message: "You are not authorized to delete this property" });
-    // }
-
-    // Delete the property
-    const deleteQuery = `
-      DELETE FROM Listings WHERE id = ?
-    `;
+    // Then delete the property
+    const deleteQuery = `DELETE FROM Listings WHERE id = ?`;
     await dbConnection.query(deleteQuery, [id]);
 
-    // // Optionally, log the deletion to notifications or audit logs
-    // const notificationQuery = `
-    //   INSERT INTO notifications (user_id, message)
-    //   VALUES (?, ?)
-    // `;
-    // const notificationValues = [
-    //   req.user.userid,
-    //   `Listing "${property[0].title}" deleted successfully`,
-    // ];
-
-    // await dbConnection.query(notificationQuery, notificationValues);
-
-    res.status(200).json({ message: "Property deleted successfully" });
+    res.status(200).json({ message: "Property and related favorites deleted successfully" });
   } catch (error) {
     console.error("Error deleting property:", error.message);
     res.status(500).json({
@@ -587,6 +579,7 @@ const deleteProperty = async (req, res) => {
     });
   }
 };
+
 
 
 const patchUpdateHouse = async (req, res) => {
