@@ -27,6 +27,19 @@ class HomeRepository(private val apiService: ApiService) {
         }
     }
 
+    suspend fun fetchAll(): Result<ListingResponse> {
+        return try {
+            val response = apiService.getAllHouse()
+            if (response.isSuccessful) {
+                Result.success(response.body() ?: ListingResponse("", emptyList(), 0, 0, 0))
+            } else {
+                Result.failure(Exception("Error: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun deleteHouse(id: Int): Result<Unit> {
         return try {
             val response = apiService.deleteHouse(id)

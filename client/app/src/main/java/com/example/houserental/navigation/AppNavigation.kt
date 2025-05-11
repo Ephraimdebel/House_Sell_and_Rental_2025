@@ -1,6 +1,7 @@
 package com.example.houserental.navigation
 
 
+import SearchScreen
 import SignUpViewModel
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,6 +21,7 @@ import com.example.houserental.view.components.BottomNavBar
 import com.example.houserental.view.pages.add_property.*
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 import com.example.houserental.ui.pages.home_detail.PropertyDetailScreen
+//import com.example.houserental.view.pages.Search.SearchPage.SearchPage
 //import com.example.houserental.view.pages.Search.SearchPage.SearchPage
 import com.example.houserental.viewModel.LoginViewModel
 import com.example.houserental.viewModel.LoginViewModelFactory
@@ -162,7 +164,7 @@ fun AppNavigation() {
                 }
             }
             composable("search") {
-                SearchPage(navController = navController, repository = homeRepositoryInstance)
+                SearchScreen(navController = navController)
             }
         }
     }

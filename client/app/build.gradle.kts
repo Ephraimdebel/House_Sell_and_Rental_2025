@@ -104,6 +104,8 @@ dependencies {
     // Ensure you have the Compose dependencies as well
     implementation( "androidx.compose.runtime:runtime-livedata:1.4.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation ("androidx.compose.ui:ui:1.5.0" ) // Check for the latest version
+    implementation ("androidx.compose.foundation:foundation:1.5.0")
     configurations.all {
         resolutionStrategy {
             // Force Guava version (pick one)

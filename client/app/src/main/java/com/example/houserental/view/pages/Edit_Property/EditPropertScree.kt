@@ -52,6 +52,8 @@ fun EditPropertyScreen(
 
     val scrollState = rememberScrollState()
     val imageUris = remember { mutableStateListOf<Uri>() }
+    val propertyTypes = listOf("House", "Apartment", "Condo", "Townhouse", "Villa")
+    val property = listOf("For sale","For rent")
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetMultipleContents(),
@@ -67,7 +69,7 @@ fun EditPropertyScreen(
         containerColor = Color(0xFFF5F5F5),
         topBar = {
             TopAppBar(
-                title = { Text("Edit Property") },
+                title = { Text("Edit Property",color = Color(0xFF5D9DF0)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -104,19 +106,21 @@ fun EditPropertyScreen(
 
                 Text("Property Type")
                 SelectableChips(
-                    options = listOf("House", "Apartment", "Condo", "Townhouse", "Villa"),
-                    selected = viewModel.propertyType,
+                    options = propertyTypes,
+                    selected = propertyTypes[viewModel.propertyType - 1] ?:"", // convert Int to String
                     onSelected = { selectedOption ->
-                        viewModel.propertyType = selectedOption
+                        val index = propertyTypes.indexOf(selectedOption)
+                        viewModel.propertyType = index + 1 // convert String back to Int
                     }
                 )
 
                 Text("Listing Type")
                 SelectableChips(
-                    options = listOf("For Sale", "For Rent"),
-                    selected = viewModel.listingType,
+                    options = property,
+                    selected = property[viewModel.listingType - 1] ?: "",
                     onSelected = { selectedOption ->
-                        viewModel.listingType = selectedOption
+                        val index = property.indexOf(selectedOption)
+                        viewModel.listingType = index + 1
                     }
                 )
 
@@ -265,8 +269,15 @@ fun EditPropertyScreen(
                     onClick = {
                         viewModel.updateProperty(propertyId)
                         Toast.makeText(context, "Submitting...", Toast.LENGTH_SHORT).show()
+                        navController.navigate("manage_property") {
+                            popUpTo("add_property") { inclusive = true } // Optional: remove 'add_property' from back stack
+                        }
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = BrandColor,
+                        contentColor = Color.White // for the text
+                    )
                 ) {
                     Text("Update Property")
                 }

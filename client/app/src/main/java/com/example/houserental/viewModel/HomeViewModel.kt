@@ -31,7 +31,7 @@ class HomeViewModel(
         getHomes()
     }
 
-    fun getHomes(typeId: Int = currentTypeId, page: Int = currentPage, limit: Int = pageSize) {
+    fun getHomes() {
         // Prevent unnecessary calls once all pages are loaded
         if (isLoading || isLastPage) return
 
@@ -39,7 +39,7 @@ class HomeViewModel(
             isLoading = true
             errorMessage = null
 
-            val result = repository.fetchHomes(typeId, page, limit)
+            val result = repository.fetchAll()
             isLoading = false
 
             result

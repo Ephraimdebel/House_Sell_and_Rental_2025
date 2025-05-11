@@ -1,8 +1,8 @@
 package com.example.houserental.data.model
 
 data class UpdatePropertyRequest(
-    val category_id: String,
-    val type_id: String,
+    val category_id: Int,
+    val type_id: Int,
     val streetAddress: String,
     val city: String,
     val province: String,

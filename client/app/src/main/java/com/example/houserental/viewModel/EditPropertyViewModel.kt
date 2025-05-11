@@ -33,8 +33,8 @@ class EditPropertyViewModel(
     var streetAddress by mutableStateOf("")
     var city by mutableStateOf("")
     var state by mutableStateOf("")
-    var propertyType by mutableStateOf("House") // Start with a default value
-    var listingType by mutableStateOf("For Sale") // Start with a default value
+    var propertyType by mutableIntStateOf(1) // Start with a default value
+    var listingType by mutableStateOf(1) // Start with a default value
     var zipCode by mutableStateOf("") // Default value as an empty string
 
     var facilities by mutableStateOf("")
@@ -77,8 +77,8 @@ class EditPropertyViewModel(
                     if (property != null) {
                         title = property.title
                         description = property.description
-                        propertyType = property.type_id.toString()
-                        listingType = property.category_id.toString()
+                        propertyType = property.category_id
+                        listingType = property.type_id
                         price = property.price
                         bedroomCount = property.bedroomCount.toString()
                         bathroomCount = property.bathroomCount.toString()
@@ -112,8 +112,8 @@ class EditPropertyViewModel(
         viewModelScope.launch {
             try {
                 val request = UpdatePropertyRequest(
-                    category_id = listingType,
-                    type_id = propertyType,
+                    category_id =propertyType ,
+                    type_id = listingType,
                     streetAddress = streetAddress,
                     city = city,
                     province = state,

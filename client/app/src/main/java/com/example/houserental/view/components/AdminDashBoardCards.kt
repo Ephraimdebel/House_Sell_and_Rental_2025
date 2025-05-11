@@ -22,12 +22,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
+import com.example.houserental.ui.theme.BrandColor
 
 @Composable
 fun DashboardCard(
     title: String,
     value: Int,
-    color: Color = Color.Blue,
+    color: Color = BrandColor,
     icon: ImageVector,
     iconSize: Dp = 28.dp
 ) {
