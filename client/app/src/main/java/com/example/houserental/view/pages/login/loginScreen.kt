@@ -143,7 +143,7 @@ fun LoginScreen(
 
             // Error Message
             viewModel.errorMessage?.let {
-                Text(text = it, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
+                Text(text = "invalid email or password", color = Color.Red, modifier = Modifier.padding(top = 8.dp))
             }
 
             // Loading Spinner

@@ -233,11 +233,11 @@ fun PropertyCard(house: HouseListing, onDelete: () -> Unit, onEdit: () -> Unit) 
                     Spacer(modifier = Modifier.height(8.dp))
                     Surface(
                         shape = CircleShape,
-                        color = BrandColor,
+                        color = Color(0xFFF0F0F0),
                         modifier = Modifier.size(36.dp)
                     ) {
                         IconButton(onClick = onEdit) {
-                            Icon(Icons.Filled.Edit, contentDescription = "Edit")
+                            Icon(Icons.Filled.Edit, contentDescription = "Edit",tint = BrandColor)
                         }
                     }
                     Spacer(modifier = Modifier.width(8.dp))

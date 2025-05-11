@@ -141,9 +141,9 @@ fun PropertyCard(
                             .size(32.dp)
                     ) {
                         Icon(
-                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.Favorite,
+                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite",
-                            tint = Color.Red)
+                            tint = if (isFavorited) Color.Red else Color.White)
                     }
                 }
 
@@ -229,9 +229,9 @@ fun PropertyCard(
                             .size(32.dp)
                     ) {
                         Icon(
-                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.Favorite,
+                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                             contentDescription = "Favorite",
-                            tint = Color.Red
+                            tint = if (isFavorited) Color.Red else Color.White
                         )
                     }
                 }
