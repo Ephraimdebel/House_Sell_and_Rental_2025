@@ -440,6 +440,36 @@ const addFavorite = async (req, res) => {
   }
 };
 
+const removeFavorite = async (req, res) => {
+  const { user_id, listing_id } = req.params; 
+
+  try {
+    // Check if the favorite exists
+    const existing = await dbConnection.query(
+      "SELECT * FROM Favorites WHERE user_id = ? AND listing_id = ?",
+      [user_id, listing_id]
+    );
+
+    if (existing.length === 0) {
+      return res.status(404).json({ message: "Favorite not found" });
+    }
+
+    // Remove the favorite
+    await dbConnection.query(
+      "DELETE FROM Favorites WHERE user_id = ? AND listing_id = ?",
+      [user_id, listing_id]
+    );
+
+    res.status(200).json({
+      "message": "Favorite removed successfully"
+    }
+    );
+  } catch (err) {
+    console.error("Error removing from favorites:", err);
+    res.status(500).json({ "message": "Server error" });
+  }
+};
+
 
 const getFilteredHouses = async (req, res) => {
   try {
@@ -700,4 +730,4 @@ const patchUpdateHouse = async (req, res) => {
 };
 
 
-module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings,editProperty,patchUpdateHouse};
+module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings,editProperty,patchUpdateHouse,removeFavorite};

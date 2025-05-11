@@ -60,6 +60,14 @@ interface ApiService {
     suspend fun addToFavorite(@Body request: FavoriteRequest): Response<MessageResponse>
     @GET("api/favorite/{user_id}")
     suspend fun getFavorites(@Path("user_id") userId: Int): FavoriteResponse
+    // Define the function to remove a favorite
+    @DELETE("api/removefavourite/{user_id}/{listing_id}")
+    suspend fun removeFromFavorite(
+        @Path("user_id") userId: Int,
+        @Path("listing_id") listingId: Int
+    ): Response<MessageResponse>
+
+
 
 
     @GET("api/house")
