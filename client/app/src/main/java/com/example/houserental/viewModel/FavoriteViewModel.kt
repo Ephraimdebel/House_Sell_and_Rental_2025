@@ -16,6 +16,13 @@ class FavoriteViewModel(private val repository: FavoriteRepository) : ViewModel(
             onResult(result.isSuccess)
         }
     }
+    fun removeFromFavorite(userId: Int, listingId: Int, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val result = repository.removeFromFavorite(userId, listingId)
+            onResult(result.isSuccess)
+        }
+    }
+
 
 
     private val _favoriteListings = MutableStateFlow<List<HouseListing>>(emptyList())

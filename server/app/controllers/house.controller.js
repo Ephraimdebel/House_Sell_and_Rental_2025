@@ -440,6 +440,36 @@ const addFavorite = async (req, res) => {
   }
 };
 
+const removeFavorite = async (req, res) => {
+  const { user_id, listing_id } = req.params; 
+
+  try {
+    // Check if the favorite exists
+    const existing = await dbConnection.query(
+      "SELECT * FROM Favorites WHERE user_id = ? AND listing_id = ?",
+      [user_id, listing_id]
+    );
+
+    if (existing.length === 0) {
+      return res.status(404).json({ message: "Favorite not found" });
+    }
+
+    // Remove the favorite
+    await dbConnection.query(
+      "DELETE FROM Favorites WHERE user_id = ? AND listing_id = ?",
+      [user_id, listing_id]
+    );
+
+    res.status(200).json({
+      "message": "Favorite removed successfully"
+    }
+    );
+  } catch (err) {
+    console.error("Error removing from favorites:", err);
+    res.status(500).json({ "message": "Server error" });
+  }
+};
+
 
 const getFilteredHouses = async (req, res) => {
   try {
@@ -559,6 +589,145 @@ const deleteProperty = async (req, res) => {
 };
 
 
+const patchUpdateHouse = async (req, res) => {
+  try {
+    const listingId = req.params.id;
+
+    if (!listingId) {
+      return res.status(400).json({ message: 'Listing ID is required' });
+    }
+
+    const {
+      category_id,
+      type_id,
+      streetAddress,
+      city,
+      province,
+      country,
+      bedroomCount,
+      bathroomCount,
+      title,
+      description,
+      price,
+      area,
+      facilities
+    } = req.body;
+
+    const categoryMap = {
+      'House': 1,
+      'Apartment': 2,
+      'Condo': 3,
+      'Townhouse': 4,
+      'Villa': 5
+    };
+
+    const typeMap = {
+      'For Sale': 1,
+      'For Rent': 2
+    };
+
+    const fields = [];
+    const values = [];
+
+    // Conditionally build the update fields
+    if (category_id) {
+      fields.push('category_id = ?');
+      values.push(category_id);
+    }
+
+    if (type_id) {
+      fields.push('type_id = ?');
+      values.push(type_id);
+    }
+
+    if (streetAddress) {
+      fields.push('streetAddress = ?');
+      values.push(streetAddress);
+    }
+
+    if (city) {
+      fields.push('city = ?');
+      values.push(city);
+    }
+
+    if (province) {
+      fields.push('province = ?');
+      values.push(province);
+    }
+
+    if (country) {
+      fields.push('country = ?');
+      values.push(country);
+    }
+
+    if (bedroomCount) {
+      fields.push('bedroomCount = ?');
+      values.push(bedroomCount);
+    }
+
+    if (bathroomCount) {
+      fields.push('bathroomCount = ?');
+      values.push(bathroomCount);
+    }
+
+    if (title) {
+      fields.push('title = ?');
+      values.push(title);
+    }
+
+    if (description) {
+      fields.push('description = ?');
+      values.push(description);
+    }
+
+    if (price) {
+      fields.push('price = ?');
+      values.push(price);
+    }
+
+    if (area) {
+      fields.push('area = ?');
+      values.push(area);
+    }
+
+    if (facilities) {
+      fields.push('facilities = ?');
+      values.push(JSON.stringify(facilities));
+    }
+
+    const listingPhotos = req.files;
+    if (listingPhotos && listingPhotos.length > 0) {
+      const listingPhotoPaths = listingPhotos.map((file) => {
+        const relativePath = file.path.replace(/\\/g, '/');
+        return `${BASE_URL}/${relativePath}`;
+      });
+
+      fields.push('listingPhotoPaths = ?');
+      values.push(JSON.stringify(listingPhotoPaths));
+    }
+
+    // Always update updatedAt
+    fields.push('updatedAt = CURRENT_TIMESTAMP');
+
+    // If nothing to update
+    if (fields.length === 1) {
+      return res.status(400).json({ message: 'No valid fields provided to update' });
+    }
+
+    const updateQuery = `UPDATE Listings SET ${fields.join(', ')} WHERE id = ?`;
+    values.push(listingId);
+
+    const result = await dbConnection.query(updateQuery, values);
+
+    res.status(200).json({
+      message: 'Listing updated successfully',
+      result
+    });
+  } catch (err) {
+    console.error('Error updating listing:', err);
+    res.status(500).json({ message: 'Error updating listing', error: err.message });
+  }
+};
 
 
-module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings,editProperty};
+module.exports = { addHouse,getHouseDetails,getListingsByType,getFilteredHouses,deleteProperty,getFavoriteListings,addFavorite,getAllListings,editProperty,patchUpdateHouse,removeFavorite};

@@ -27,18 +27,12 @@ class SearchViewModel(
             isLoading.value = true
             errorMessage.value = null
 
-            // Make sure searchHomes in HomeRepository returns a Result<List<HouseListing>>
             val result = repository.searchHomes(city, minPrice, maxPrice, typeId)
-
             isLoading.value = false
 
             result
-                .onSuccess { response ->
-                    searchResults.value = response
-                }
-                .onFailure {
-                    errorMessage.value = it.message
-                }
+                .onSuccess { response -> searchResults.value = response }
+                .onFailure { errorMessage.value = it.message }
         }
     }
 }

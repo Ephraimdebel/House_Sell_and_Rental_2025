@@ -42,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.houserental.data.repository.AuthRepository
+import com.example.houserental.ui.theme.Background
 import com.example.houserental.view.components.ProfileSection
 import com.example.houserental.viewModel.ProfileViewModel
 import com.example.houserental.viewModel.ProfileViewModelFactory
@@ -64,7 +65,7 @@ fun ProfileScreen(onGotoAdminDashboard: () -> Unit, navController: NavController
     val userEmail by profileViewModel.userEmail
     val userRole by profileViewModel.userRole
     val isLoggedIn by profileViewModel.isLoggedIn
-    Log.d("UserData", "userName: ${profileViewModel.userName.value}")
+    Log.d("UserData", "userName: ${profileViewModel.userRole.value}")
     val accountItems = listOf(
         "Personal Info" to Icons.Outlined.Person,
         "My Property" to Icons.Outlined.Home,
@@ -104,7 +105,7 @@ fun ProfileScreen(onGotoAdminDashboard: () -> Unit, navController: NavController
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF7F7F7))
+                .background(Background)
                 .padding(innerPadding)
         ) {
             // Column to display content with vertical scroll
@@ -179,18 +180,22 @@ fun ProfileScreen(onGotoAdminDashboard: () -> Unit, navController: NavController
                                     fontSize = 14.sp
                                 )
                             }
-
-                            // Admin Dashboard Button
-                            OutlinedButton(
-                                onClick = { onGotoAdminDashboard() },
-                                shape = RoundedCornerShape(20.dp),
-                                border = BorderStroke(1.dp, Color(0xFF1565C0)),
-                                colors = ButtonDefaults.outlinedButtonColors(
-                                    contentColor = Color(0xFF1565C0)
-                                )
-                            ) {
-                                Text("Admin Dashboard", fontSize = 14.sp)
+                            if(userRole == "admin"){
+                                // Admin Dashboard Button
+                                OutlinedButton(
+                                    onClick = { onGotoAdminDashboard() },
+                                    shape = RoundedCornerShape(20.dp),
+                                    border = BorderStroke(1.dp, Color(0xFF1565C0)),
+                                    colors = ButtonDefaults.outlinedButtonColors(
+                                        contentColor = Color(0xFF1565C0)
+                                    )
+                                ) {
+                                    Text("Admin Dashboard", fontSize = 14.sp)
+                                }
+                            }else{
+                                /*userdashboard */
                             }
+
                         }
                     }
 

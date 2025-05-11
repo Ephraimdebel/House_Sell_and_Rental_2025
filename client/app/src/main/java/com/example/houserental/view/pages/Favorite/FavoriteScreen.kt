@@ -1,6 +1,8 @@
 package com.example.houserental.view.pages.Favorite
 
 import LoginResponse
+import PropertyCard
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +34,7 @@ import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.preferences.UserPreferences
 import com.example.houserental.ui.theme.Background
 import com.example.houserental.ui.theme.BlackText
-import com.example.houserental.view.PropertyCard
+//import com.example.houserental.view.PropertyCard
 import com.example.houserental.viewModel.FavoriteViewModel
 import com.example.houserental.viewModel.FavoriteViewModelFactory
 
@@ -65,6 +67,17 @@ fun FavoriteScreen(navController: NavController) {
 
     val favoriteListings by favoriteViewModel.favoriteListings.collectAsState(initial = emptyList())
 
+    // Function to remove favorite
+    fun removeFavorite(houseId: Int) {
+        favoriteViewModel.removeFromFavorite(userId, houseId) { success ->
+            if (success) {
+                Toast.makeText(context, "Removed from favorites", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Failed to remove from favorites", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -94,6 +107,7 @@ fun FavoriteScreen(navController: NavController) {
                         isHorizontal = false,
                         userId = userId,
                         viewModel = favoriteViewModel,
+                        onRemoveFavorite = { removeFavorite(house.id) }
                     ) {
                         navController.navigate("property_detail/${house.id}")
                     }
@@ -102,3 +116,5 @@ fun FavoriteScreen(navController: NavController) {
         }
     }
 }
+
+

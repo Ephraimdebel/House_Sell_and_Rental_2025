@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 
 async function register(req, res) {
-  const { full_name, email, password,phone_number} = req.body;
+  const { full_name, email, password,role,phone_number} = req.body;
 
   // Check for required fields
   if (!email || !password || !full_name) {
@@ -44,8 +44,8 @@ async function register(req, res) {
 
     // Insert new user into the database
     await dbConnection.query(
-      "INSERT INTO Users (full_name, email,phone_number,password) VALUES (?, ?, ?, ?)",
-      [full_name, email,phone_number,hashedPassword]
+      "INSERT INTO Users (full_name, email,phone_number,role,password) VALUES (?, ?, ?, ?,?)",
+      [full_name, email,phone_number,role,hashedPassword]
     );
 
     return res
