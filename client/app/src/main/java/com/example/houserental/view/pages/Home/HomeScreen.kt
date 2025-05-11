@@ -74,6 +74,7 @@ fun HomeScreen(navController: NavController) {
         factory = favoriteViewModelFactory,
         viewModelStoreOwner = viewModelStoreOwner!!
     )
+
     val userDetails = UserPreferences.getUserDetails(context).collectAsState(initial = LoginResponse(msg = "",
         token = "",
         username = "",
