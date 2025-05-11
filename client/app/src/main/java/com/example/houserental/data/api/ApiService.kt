@@ -70,19 +70,7 @@ interface ApiService {
 
     @GET("api/house")
     suspend fun getAllHouse():Response<ListingResponse>
-//    @Multipart
-//    @POST("/api/addHouse")
-//    suspend fun addProperty(
-//        @Part photos: List<MultipartBody.Part>,
-//        @Part("price") price: RequestBody,
-//        @Part("description") description: RequestBody,
-//        @Part("title") title: RequestBody,
-//        @Part("bathroomCount") bathroomCount: RequestBody,
-//        @Part("bedroomCount") bedroomCount: RequestBody,
-//        @Part("country") country: RequestBody,
-//        @Part("area") area: RequestBody,
-//        @Part("facilities") facilities: RequestBody
-//    ): Response<Unit>
+
 
     @Multipart
     @POST("api/addHouse")
@@ -124,36 +112,6 @@ interface ApiService {
     ): Response<ListingResponse>
 
 
-
-
-//    @Multipart
-//    @POST("api/addHouse")
-//    suspend fun addHouse(
-//        @Part photos: List<MultipartBody.Part>,
-//        @Part("title") title: RequestBody,
-//        @Part("price") price: RequestBody,
-//        @Part("description") description: RequestBody,
-//        @Part("bathroomCount") bathroomCount: RequestBody,
-//        @Part("bedroomCount") bedroomCount: RequestBody,
-//        @Part("country") country: RequestBody,
-//        @Part("area") area: RequestBody,
-//        @Part("facilities") facilities: RequestBody,
-//        @Part("category") category: RequestBody,     // ← ADD
-//        @Part("type") type: RequestBody,             // ← ADD
-//        @Part("streetAddress") streetAddress: RequestBody,         // ← ADD
-//        @Part("city") city: RequestBody,             // ← ADD
-//        @Part("province") province: RequestBody      // ← ADD
-//    ): Response<Unit>
-
-//    @GET("api/house/{id}")
-//    suspend fun getPropertyById(@Path("id") id: Int): Response<PropertyResponse>
-//
-//
-//    @PATCH("api/properties/{id}")
-//    suspend fun updateProperty(
-//        @Path("id") id: Int,
-//        @Body updatedProperty: UpdatePropertyRequest
-//    ): Response<HouseListing>
 
 
 
