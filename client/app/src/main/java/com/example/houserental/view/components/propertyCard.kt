@@ -103,7 +103,7 @@ fun PropertyCard(
                             .padding(6.dp)
                             .background(
                                 color = BrandColor,
-                                shape = RoundedCornerShape(6.dp)
+                                shape = RoundedCornerShape(3.dp)
                             )
                             .padding(horizontal = 6.dp, vertical = 1.dp)
                     )
@@ -141,9 +141,9 @@ fun PropertyCard(
                             .size(32.dp)
                     ) {
                         Icon(
-                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.Favorite,
                             contentDescription = "Favorite",
-                            tint = Color.White)
+                            tint = Color.Red)
                     }
                 }
 
@@ -229,9 +229,9 @@ fun PropertyCard(
                             .size(32.dp)
                     ) {
                         Icon(
-                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            imageVector = if (isFavorited) Icons.Default.Favorite else Icons.Default.Favorite,
                             contentDescription = "Favorite",
-                            tint = Color.White
+                            tint = Color.Red
                         )
                     }
                 }

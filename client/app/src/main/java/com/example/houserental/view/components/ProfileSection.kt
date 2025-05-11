@@ -33,9 +33,9 @@ fun ProfileSection(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .background(Color.White)
             .padding(horizontal = 16.dp, vertical = 16.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Color.White)
             .padding(24.dp)
     ) {
         Text(
@@ -58,7 +58,7 @@ fun ProfileSection(
                     imageVector = icon,
                     contentDescription = label,
                     tint = Color(0xFF5D9DF0),
-                    modifier = Modifier.size(20.dp)
+                    modifier = Modifier.size(26.dp)
                 )
                 Spacer(modifier = Modifier.width(20.dp))
                 Text(label, fontSize = 16.sp, color = Color.Black)

@@ -16,4 +16,7 @@ val BorderColor = Color(0x60D9D9D9)
 val Subtext = Color(0x60171717)
 val Background = Color(0xFFF7F7F7)
 val BlackText = Color(0xFF000000)
+val BrownText = Color(0xFF545252)
+val RedButton = Color(0xFFD05454)
+val GoldButton = Color(0xFFE88E09)
 

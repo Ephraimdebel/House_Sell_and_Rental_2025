@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.houserental.ui.theme.BlackText
 
 @Composable
 fun ImagePickerComponent(
@@ -57,7 +58,7 @@ fun ImagePickerComponent(
             )
             .padding(16.dp)
     ) {
-        Text(text = "Add Images")
+        Text(text = "Add Images",color=BlackText)
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(
@@ -67,26 +68,40 @@ fun ImagePickerComponent(
             Row(horizontalArrangement = Arrangement.spacedBy(68.dp)) {
                 // Gallery button
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconCircleButton(icon = Icons.Default.Image) {
-                        launcher.launch("image/*")
+                    Box(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .background(Color.LightGray, shape = CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        IconCircleButton(icon = Icons.Default.Image) {
+                            launcher.launch("image/*")
+                        }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Gallery")
+                    Text(text = "Gallery", color = BlackText)
                 }
 
                 // Sample/upload button
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconCircleButton(icon = Icons.Default.AccountBox) { // change to upload icon here if available
-                        launcher.launch("image/*")
+                    Box(
+                        modifier = Modifier
+                            .size(60.dp)
+                            .background(Color.LightGray, shape = CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        IconCircleButton(icon = Icons.Default.AccountBox) {
+                            launcher.launch("image/*")
+                        }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Upload")
+                    Text(text = "Upload",color = BlackText)
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Tap an option to add an image. You can add multiple images.")
+        Text(text = "Tap an option to add an image. You can add multiple images.", color = BlackText)
 
         if (imageUris.isNotEmpty()) {
             Spacer(modifier = Modifier.height(16.dp))
