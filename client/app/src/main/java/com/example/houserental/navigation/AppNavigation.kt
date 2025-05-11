@@ -1,19 +1,20 @@
 package com.example.houserental.navigation
 
 
+import SearchScreen
 import SignUpViewModel
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.example.houserental.LoginScreen
 import com.example.houserental.data.repository.AuthRepository
+import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
 import com.example.houserental.view.*
 import com.example.houserental.view.components.BottomNavBar
@@ -21,6 +22,7 @@ import com.example.houserental.view.pages.add_property.*
 import com.example.houserental.view.pages.manage_home.ManageHomeScreen
 import com.example.houserental.ui.pages.home_detail.PropertyDetailScreen
 import com.example.houserental.view.pages.Favorite.FavoriteScreen
+//import com.example.houserental.view.pages.Search.SearchPage.SearchPage
 //import com.example.houserental.view.pages.Search.SearchPage.SearchPage
 import com.example.houserental.viewModel.LoginViewModel
 import com.example.houserental.viewModel.LoginViewModelFactory
@@ -35,6 +37,9 @@ fun AppNavigation() {
 
     // Define which screens should show the BottomNavBar
     val bottomNavItems = listOf("home", "search", "favorite", "profile")
+
+
+    val homeRepositoryInstance = HomeRepository(RetrofitInstance.api)
 
     Scaffold(
         bottomBar = {
@@ -158,6 +163,9 @@ fun AppNavigation() {
                         houseId = id
                     )
                 }
+            }
+            composable("search") {
+                SearchScreen(navController = navController)
             }
         }
     }

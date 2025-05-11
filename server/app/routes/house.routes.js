@@ -10,6 +10,7 @@ const {
   getFavoriteListings,
   addFavorite,
   getAllListings,
+  patchUpdateHouse,
 } = require("../controllers/house.controller");
 
 const authMiddleware = require("../middlewares/auth_middle_ware");
@@ -26,7 +27,7 @@ router.get("/housetype", getListingsByType)
 router.post("/addfavourite", addFavorite)
 router.get("/favorite/:userId", getFavoriteListings)
 router.get("/listings", getFilteredHouses)
-router.patch("/listings/:id", getFilteredHouses)
+router.patch("/listings/:id", patchUpdateHouse)
 
 
 module.exports = router;

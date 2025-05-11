@@ -62,6 +62,8 @@ interface ApiService {
     suspend fun getFavorites(@Path("user_id") userId: Int): FavoriteResponse
 
 
+    @GET("api/house")
+    suspend fun getAllHouse():Response<ListingResponse>
 //    @Multipart
 //    @POST("/api/addHouse")
 //    suspend fun addProperty(
@@ -99,7 +101,7 @@ interface ApiService {
     suspend fun getPropertyById(@Path("id") id: Int): Response<HouseDetailResponse>
 
 
-    @PATCH("api/properties/{id}")
+    @PATCH("api/listings/{id}")
     suspend fun updateProperty(
         @Path("id") id: Int,
         @Body updatedProperty: UpdatePropertyRequest

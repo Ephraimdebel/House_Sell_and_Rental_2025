@@ -26,12 +26,12 @@ class ManageHomeViewModel(
         getHomes()
     }
 
-    fun getHomes(typeId: Int = 1, page: Int = 1, limit: Int = 6) {
+    fun getHomes() {
         viewModelScope.launch {
             isLoading = true
             errorMessage = null
 
-            val result = repository.fetchHomes(typeId, page, limit)
+            val result = repository.fetchAll()
             isLoading = false
 
             result

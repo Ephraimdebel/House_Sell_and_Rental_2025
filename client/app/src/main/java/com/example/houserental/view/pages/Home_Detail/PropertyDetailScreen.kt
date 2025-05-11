@@ -3,6 +3,7 @@ package com.example.houserental.ui.pages.home_detail
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -26,13 +27,15 @@ import com.example.houserental.R
 import com.example.houserental.viewModel.HouseDetailViewModel
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.data.api.ApiService
-import com.google.accompanist.flowlayout.FlowRow
 import coil.compose.AsyncImage as AsyncImage1
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.houserental.network.RetrofitInstance
+import com.example.houserental.ui.theme.Background
 import com.example.houserental.viewModel.HouseDetailViewModelFactory
-import com.example.houserental.viewModel.ManageHomeViewModel
-import com.example.houserental.viewModel.ManageHomeViewModelFactory
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
+import androidx.compose.ui.draw.clip
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,7 +46,11 @@ fun PropertyDetailTopBar(navController: NavController) {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
             }
-        }
+        },
+
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White
+        ),
     )
 }
 
@@ -60,7 +67,7 @@ fun PropertyDetailScreen(houseId: Int, navController: NavController) {
 
     Scaffold(
         topBar = { PropertyDetailTopBar(navController) },
-        containerColor = Color.White
+        containerColor = Background
     ) { paddingValues ->
         PropertyDetailPage(
             viewModel = viewModel,
@@ -112,8 +119,11 @@ fun PropertyDetailPage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(250.dp)
+                        .clip(RoundedCornerShape(16.dp))  // Apply rounded corners here
+//                        .border(2.dp, Color.Gray, RoundedCornerShape(16.dp))  // Optional: Add a border
                 )
             }
+
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -141,7 +151,12 @@ fun PropertyDetailPage(
 
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(10.dp)
+                    .clip(RoundedCornerShape(16.dp))  // Apply rounded corners here
+//                    .border(2.dp, Color.LightGray, RoundedCornerShape(16.dp))  // Optional: Add a border
             ) {
                 StatCard(
                     icon = Icons.Default.Bed,
@@ -159,6 +174,7 @@ fun PropertyDetailPage(
                     value = houseData.area?.toString() ?: "-"
                 )
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -192,7 +208,7 @@ fun PropertyDetailPage(
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                Text("Sarah Johnson", fontWeight = FontWeight.SemiBold)
+                Text("Teshome Toga", fontWeight = FontWeight.SemiBold)
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -249,6 +265,8 @@ fun StatCard(icon: ImageVector, label: String, value: String) {
     }
 }
 
+
+@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun AmenitiesSection(amenityIds: List<Int>) {
     val allAmenities = mapOf(
@@ -260,13 +278,19 @@ fun AmenitiesSection(amenityIds: List<Int>) {
         6 to Pair(Icons.Default.AcUnit, "Heating")
     )
 
-    FlowRow(mainAxisSpacing = 8.dp, crossAxisSpacing = 8.dp, modifier = Modifier.fillMaxWidth()) {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp), // mainAxisSpacing equivalent
+        verticalArrangement = Arrangement.spacedBy(8.dp)   // crossAxisSpacing equivalent
+    ) {
         amenityIds.forEach { id ->
             allAmenities[id]?.let { (icon, label) ->
                 OutlinedCard(
                     shape = RoundedCornerShape(12.dp),
                     border = BorderStroke(1.dp, Color.LightGray),
-                    modifier = Modifier.padding(4.dp)
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .background(Background)  // Apply Background color here
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -282,10 +306,12 @@ fun AmenitiesSection(amenityIds: List<Int>) {
                         Text(text = label)
                     }
                 }
+
             }
         }
     }
 }
+
 
 fun String?.toIntList(): List<Int> {
     return this?.split(",")

@@ -1,5 +1,6 @@
 package com.example.houserental.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.houserental.data.repository.HomeRepository
 import com.example.houserental.network.RetrofitInstance
+import com.example.houserental.ui.theme.Background
 import com.example.houserental.ui.theme.BrandColor
 import com.example.houserental.view.components.DashboardCard
 import com.example.houserental.view.components.ManagementCard
@@ -82,7 +84,8 @@ fun AdminDashboardScreen(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState()) // Scrollable content
+                .verticalScroll(rememberScrollState())
+                .background(Background)// Scrollable conten// t
         ) {
             Text("Welcome Back, Ephraim", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Text("Admin Dashboard", color = Color.Gray)
@@ -115,7 +118,7 @@ fun AdminDashboardScreen(
 
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 ManagementCard(
-                    title = "Manage properties",
+                    title = "Manage House",
                     icon = Icons.Default.Home,
                     modifier = Modifier.weight(1f),
                     onClick = { navController.navigate("manage_property") }

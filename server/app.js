@@ -23,29 +23,8 @@ app.use("/api", installRoute);
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
-// house photo post and delete routes middleware
-// const s3PostHandler = require("./app/routes/s3_post_router");
-// app.use("/api", s3PostHandler);
-// const s3PostHandler = require("./app/routes/s3_post_router");
-// app.use("/api", s3PostHandler);
 
-// const bookingRoute = require("./app/routes/booking.routes");
-// app.use("/api", bookingRoute);
-
-
-// const purchaseRoute = require("./app/routes/purchase.routes");
-// app.use("/api", purchaseRoute);
-
-
-// const feedbackRoute = require("./app/routes/feedback.routes");
-// app.use("/api/feedback", feedbackRoute);
-
-// const notificationRoute = require("./app/routes/notifications.routes");
-// app.use("/api/notifications", notificationRoute);
 app.listen(5500, '0.0.0.0', () => {
   console.log("Server running on http://localhost:5500");
 });
 
-// app.listen(port, () => {
-//   console.log(`Server running on port: ${port}`);
-// });
